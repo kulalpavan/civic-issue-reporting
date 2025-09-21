@@ -1,0 +1,18 @@
+{
+  "name": "civic-issue-reporting",
+  "version": "1.0.0",
+  "description": "A modern civic issue reporting system",
+  "scripts": {
+    "install:backend": "cd backend && npm install",
+    "install:frontend": "cd frontend && npm install", 
+    "start:backend": "cd backend && npm start",
+    "start:frontend": "cd frontend && npm run dev",
+    "build:frontend": "cd frontend && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kulalpavan/civic-issue-reporting.git"
+  },
+  "author": "kulalpavan",
+  "license": "MIT"
+}
