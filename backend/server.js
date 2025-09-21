@@ -22,16 +22,10 @@ const PORT = (() => {
 
 // Enhanced CORS configuration
 const corsOptions = {
-  origin: [
-    'http://localhost:5173',
-    'http://10.219.88.162:5173',
-    'https://vercel.app',
-    'https://*.vercel.app',
-    /https:\/\/.*\.vercel\.app$/
-  ],
+  origin: true, // Allow all origins for now
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-requested-with'],
   optionsSuccessStatus: 200
 };
 
@@ -76,6 +70,24 @@ async function writeJsonFile(filename, data) {
 // Basic routes
 app.get('/', (req, res) => {
   res.json({ message: 'Civic Issue Reporting System API' });
+});
+
+// Test route
+app.get('/test', (req, res) => {
+  res.json({ 
+    status: 'OK',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development',
+    hasJWT: !!process.env.JWT_SECRET
+  });
+});
+
+// API test route
+app.get('/api/test', (req, res) => {
+  res.json({ 
+    message: 'API routes working',
+    timestamp: new Date().toISOString()
+  });
 });
 
 // Routes
