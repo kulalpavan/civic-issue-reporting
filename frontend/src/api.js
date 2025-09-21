@@ -4,7 +4,7 @@ import axios from 'axios';
 const getApiUrl = () => {
   // Production environment (deployed)
   if (import.meta.env.PROD) {
-    return import.meta.env.VITE_API_URL || 'https://your-backend-url.onrender.com/api';
+    return import.meta.env.VITE_API_URL || 'https://civic-issue-reporting-production.up.railway.app/api';
   }
   
   // Development environment
@@ -18,9 +18,37 @@ const getApiUrl = () => {
 
 const API_URL = getApiUrl();
 
+console.log('API URL:', API_URL); // Debug log
+
 const api = axios.create({
   baseURL: API_URL,
+  timeout: 10000, // 10 second timeout
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
+
+// Request interceptor to add auth token
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  console.log('API Request:', config.method?.toUpperCase(), config.url, config.data); // Debug log
+  return config;
+});
+
+// Response interceptor for better error handling
+api.interceptors.response.use(
+  (response) => {
+    console.log('API Response:', response.status, response.data); // Debug log
+    return response;
+  },
+  (error) => {
+    console.error('API Error:', error.response?.status, error.response?.data || error.message); // Debug log
+    return Promise.reject(error);
+  }
+);
 
 // Request interceptor to add auth token
 api.interceptors.request.use((config) => {
