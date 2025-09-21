@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "username": "citizen1",
+    "password": "$2a$10$3CQZmqPP0iVVhOGeF9ls6OQD0vNe.qd4IxmfyDulcKIzRl2FcMiG.",
+    "role": "citizen"
+  },
+  {
+    "id": "2",
+    "username": "officer1",
+    "password": "$2a$10$JOhRgyxka7SQOuDjutzUYelpCeEvfu7Ngxts9jBMMh79iFnPiOyu.",
+    "role": "officer"
+  },
+  {
+    "id": "3",
+    "username": "admin1",
+    "password": "$2a$10$M7dMBhJ8TWB4rM9EeWDudOOmU67Fk0Zfquuc9MXGGRvmOPDJBS5GO",
+    "role": "admin"
+  }
+]
