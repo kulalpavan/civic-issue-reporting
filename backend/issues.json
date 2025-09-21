@@ -1,12 +1,12 @@
 [
   {
-    "id": "1758463822760",
-    "title": "test 2",
-    "description": "test 2",
-    "image": "/uploads/1758463822745-new_aerphilia.png",
-    "status": "pending",
+    "id": "1758472881525",
+    "title": "Road construction is not proper",
+    "description": "I have noticed a problem in road",
+    "image": "/uploads/1758472881499-demon-slayer-3840x2160-23652.jpg",
+    "status": "resolved",
     "citizenId": "1",
-    "createdAt": "2025-09-21T14:10:22.760Z",
-    "updatedAt": "2025-09-21T14:10:22.760Z"
+    "createdAt": "2025-09-21T16:41:21.525Z",
+    "updatedAt": "2025-09-21T17:08:41.574Z"
   }
 ]

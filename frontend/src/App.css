@@ -1,42 +1,132 @@
+/* App Component Styles */
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Remove default body styles that might conflict */
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg-gradient-light) !important;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Smooth transitions for all interactive elements */
+* {
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Enhanced card animations */
+.enhanced-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.enhanced-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.enhanced-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.5s;
+}
+
+.enhanced-card:hover::before {
+  left: 100%;
+}
+
+/* Loading animations */
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
   }
-  to {
-    transform: rotate(360deg);
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+/* Floating action button style */
+.fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  box-shadow: 0 8px 16px rgba(21, 101, 192, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fab:hover {
+  transform: scale(1.1);
+  box-shadow: 0 12px 24px rgba(21, 101, 192, 0.4);
+}
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+  .mobile-hide {
+    display: none !important;
+  }
+  
+  .mobile-full-width {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+  
+  .mobile-padding {
+    padding: 16px !important;
+  }
+  
+  .fab {
+    bottom: 16px;
+    right: 16px;
   }
 }
 
-.card {
-  padding: 2em;
+@media (max-width: 480px) {
+  .mobile-sm-hide {
+    display: none !important;
+  }
+  
+  .mobile-sm-text {
+    font-size: 0.875rem !important;
+  }
 }
 
-.read-the-docs {
-  color: #888;
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .card-hover:hover {
+    outline: 2px solid var(--primary-blue);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .card-hover:hover {
+    transform: none;
+  }
+  
+  .enhanced-card:hover {
+    transform: none;
+  }
 }

@@ -1,6 +1,22 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api';
+// API URL configuration for different environments
+const getApiUrl = () => {
+  // Production environment (deployed)
+  if (import.meta.env.PROD) {
+    return import.meta.env.VITE_API_URL || 'https://your-backend-url.onrender.com/api';
+  }
+  
+  // Development environment
+  if (window.location.hostname === 'localhost') {
+    return 'http://localhost:5000/api';
+  }
+  
+  // Local network access
+  return `http://${window.location.hostname}:5000/api`;
+};
+
+const API_URL = getApiUrl();
 
 const api = axios.create({
   baseURL: API_URL,

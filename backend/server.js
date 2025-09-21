@@ -53,6 +53,15 @@ app.use('/api/users', userRoutes);
 app.use('/api/issues', issueRoutes);
 
 // Start server
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server is running on port ${PORT}`);
+  
+  if (process.env.NODE_ENV === 'production') {
+    console.log('🚀 Production server running!');
+    console.log('📡 API accessible globally via cloud deployment');
+  } else {
+    console.log(`Local access: http://localhost:${PORT}`);
+    console.log(`Network access: http://[YOUR_IP_ADDRESS]:${PORT}`);
+    console.log('To find your IP address, run: ipconfig (Windows) or ifconfig (Mac/Linux)');
+  }
 });
