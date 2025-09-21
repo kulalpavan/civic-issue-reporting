@@ -10,7 +10,7 @@ const userRoutes = require('./routes/users');
 const issueRoutes = require('./routes/issues');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = parseInt(process.env.PORT) || 5000;
 
 // Enhanced CORS configuration
 const corsOptions = {
@@ -76,7 +76,9 @@ app.use('/api/issues', issueRoutes);
 
 // Start server
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT} (type: ${typeof PORT})`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`JWT_SECRET configured: ${process.env.JWT_SECRET ? 'Yes' : 'No'}`);
   
   if (process.env.NODE_ENV === 'production') {
     console.log('🚀 Production server running!');
@@ -85,5 +87,10 @@ app.listen(PORT, '0.0.0.0', () => {
     console.log(`Local access: http://localhost:${PORT}`);
     console.log(`Network access: http://[YOUR_IP_ADDRESS]:${PORT}`);
     console.log('To find your IP address, run: ipconfig (Windows) or ifconfig (Mac/Linux)');
+  }
+}).on('error', (err) => {
+  console.error('Server startup error:', err.message);
+  if (err.code === 'EADDRINUSE') {
+    console.error(`Port ${PORT} is already in use`);
   }
 });
