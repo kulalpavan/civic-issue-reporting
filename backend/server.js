@@ -10,7 +10,15 @@ const userRoutes = require('./routes/users');
 const issueRoutes = require('./routes/issues');
 
 const app = express();
-const PORT = parseInt(process.env.PORT) || 5000;
+// Railway provides PORT as a string, convert to integer with validation
+const PORT = (() => {
+  const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 5000;
+  if (isNaN(port) || port < 0 || port > 65535) {
+    console.log('Invalid PORT, using default 5000');
+    return 5000;
+  }
+  return port;
+})();
 
 // Enhanced CORS configuration
 const corsOptions = {
