@@ -10,7 +10,12 @@
     "install:frontend": "cd frontend && npm install", 
     "start:backend": "cd backend && npm start",
     "start:frontend": "cd frontend && npm run dev",
-    "build:frontend": "cd frontend && npm run build"
+    "build:frontend": "cd frontend && npm run build",
+    "railway:start": "cd backend && node server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
   },
   "repository": {
     "type": "git",

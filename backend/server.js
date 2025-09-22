@@ -10,11 +10,14 @@ const userRoutes = require('./routes/users');
 const issueRoutes = require('./routes/issues');
 
 const app = express();
-// Get port from environment (Railway sets this automatically)
-const PORT = process.env.PORT || 5000;
 
 console.log('Starting server...');
+console.log('NODE_ENV:', process.env.NODE_ENV);
 console.log('PORT from env:', process.env.PORT);
+console.log('Railway deployment detection...');
+
+// Get port from environment (Railway sets this automatically)
+const PORT = process.env.PORT || 5000;
 console.log('Final PORT:', PORT);
 
 // Enhanced CORS configuration
@@ -101,10 +104,22 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`JWT_SECRET: ${process.env.JWT_SECRET ? 'Set' : 'Not set'}`);
-  console.log(`\n📱 Access from other devices on your network:`);
-  console.log(`   http://10.219.88.162:${PORT}`);
-  console.log(`\n💻 Local access:`);
-  console.log(`   http://localhost:${PORT}`);
+  
+  if (process.env.RAILWAY_ENVIRONMENT || process.env.NODE_ENV === 'production') {
+    console.log('🚂 Railway deployment successful!');
+    console.log(`📡 Server accessible at production URL`);
+  } else {
+    console.log(`\n📱 Access from other devices on your network:`);
+    console.log(`   http://10.219.88.162:${PORT}`);
+    console.log(`\n💻 Local access:`);
+    console.log(`   http://localhost:${PORT}`);
+  }
+}).on('error', (err) => {
+  console.error('❌ Server startup error:', err.message);
+  if (err.code === 'EADDRINUSE') {
+    console.error(`Port ${PORT} is already in use`);
+  }
+  process.exit(1);
 });
 
 module.exports = app;
