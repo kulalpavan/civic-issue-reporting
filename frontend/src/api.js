@@ -2,18 +2,22 @@ import axios from 'axios';
 
 // API URL configuration for different environments
 const getApiUrl = () => {
+  // Force local development for now until Railway is fixed
+  return 'http://localhost:5000/api';
+  
+  // TODO: Re-enable when Railway is working
   // Production environment (deployed)
-  if (import.meta.env.PROD) {
-    return import.meta.env.VITE_API_URL || 'https://civicissue-production.up.railway.app/api';
-  }
+  // if (import.meta.env.PROD) {
+  //   return import.meta.env.VITE_API_URL || 'https://civicissue-production.up.railway.app/api';
+  // }
   
   // Development environment
-  if (window.location.hostname === 'localhost') {
-    return 'http://localhost:5000/api';
-  }
+  // if (window.location.hostname === 'localhost') {
+  //   return 'http://localhost:5000/api';
+  // }
   
   // Local network access
-  return `http://${window.location.hostname}:5000/api`;
+  // return `http://${window.location.hostname}:5000/api`;
 };
 
 const API_URL = getApiUrl();
