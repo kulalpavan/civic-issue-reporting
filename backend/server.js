@@ -18,16 +18,25 @@ console.log('PORT from env:', process.env.PORT);
 console.log('Final PORT:', PORT);
 
 // Enhanced CORS configuration
-app.use(cors());
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(cors({
+  origin: true, // Allow all origins in development
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-requested-with'],
+  optionsSuccessStatus: 200
+}));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use('/uploads', express.static('uploads'));
 
-// Add logging middleware
+// Add detailed logging middleware
 app.use((req, res, next) => {
-  console.log(`${req.method} ${req.path}`, req.body ? JSON.stringify(req.body).substring(0, 100) : '');
+  const timestamp = new Date().toISOString();
+  console.log(`[${timestamp}] ${req.method} ${req.path}`, {
+    headers: { authorization: req.headers.authorization ? 'Bearer ***' : undefined },
+    body: req.method !== 'GET' && req.body ? JSON.stringify(req.body).substring(0, 100) : undefined,
+    query: Object.keys(req.query).length > 0 ? req.query : undefined
+  });
   next();
 });
 
@@ -88,10 +97,14 @@ app.use('/api/users', userRoutes);
 app.use('/api/issues', issueRoutes);
 
 // Start server
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`JWT_SECRET: ${process.env.JWT_SECRET ? 'Set' : 'Not set'}`);
+  console.log(`\n📱 Access from other devices on your network:`);
+  console.log(`   http://10.219.88.162:${PORT}`);
+  console.log(`\n💻 Local access:`);
+  console.log(`   http://localhost:${PORT}`);
 });
 
 module.exports = app;

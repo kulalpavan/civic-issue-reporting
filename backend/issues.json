@@ -2,11 +2,41 @@
   {
     "id": "1758472881525",
     "title": "Road construction is not proper",
-    "description": "I have noticed a problem in road",
+    "description": "I have noticed a problem in road construction near the main junction. The quality of work is substandard and poses safety risks.",
     "image": "/uploads/1758472881499-demon-slayer-3840x2160-23652.jpg",
     "status": "resolved",
     "citizenId": "1",
     "createdAt": "2025-09-21T16:41:21.525Z",
     "updatedAt": "2025-09-21T17:08:41.574Z"
+  },
+  {
+    "id": "1727111200000",
+    "title": "Street Light Not Working",
+    "description": "The street light on Oak Avenue has been non-functional for over a week, creating safety concerns for pedestrians and drivers.",
+    "image": null,
+    "status": "in-progress",
+    "citizenId": "1",
+    "createdAt": "2025-09-22T08:00:00.000Z",
+    "updatedAt": "2025-09-22T08:41:08.238Z"
+  },
+  {
+    "id": "1727111300000",
+    "title": "Pothole on Main Street",
+    "description": "Large pothole near the grocery store parking lot causing vehicle damage. Immediate attention required.",
+    "image": null,
+    "status": "in-progress",
+    "citizenId": "1",
+    "createdAt": "2025-09-22T08:15:00.000Z",
+    "updatedAt": "2025-09-22T08:30:00.000Z"
+  },
+  {
+    "id": "1727111400000",
+    "title": "Garbage Collection Issue",
+    "description": "Garbage has not been collected in our neighborhood for 3 days. Bins are overflowing and attracting pests.",
+    "image": null,
+    "status": "pending",
+    "citizenId": "1",
+    "createdAt": "2025-09-22T08:30:00.000Z",
+    "updatedAt": "2025-09-22T08:30:00.000Z"
   }
 ]

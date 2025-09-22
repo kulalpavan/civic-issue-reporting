@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   Container, 
@@ -49,6 +49,22 @@ export default function Login() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [connectionStatus, setConnectionStatus] = useState(null);
+
+  // Test connection on component mount
+  useEffect(() => {
+    const testConnection = async () => {
+      try {
+        await api.testConnection();
+        setConnectionStatus('connected');
+      } catch (error) {
+        setConnectionStatus('disconnected');
+        console.error('❌ Connection test failed:', error);
+      }
+    };
+    
+    testConnection();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({
@@ -67,20 +83,62 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Clear previous errors
     setError('');
+    
+    // Validate form
+    if (!formData.username.trim()) {
+      setError('Please enter a username');
+      return;
+    }
+    if (!formData.password.trim()) {
+      setError('Please enter a password');
+      return;
+    }
+    if (!formData.role) {
+      setError('Please select a role');
+      return;
+    }
+    
     setIsLoading(true);
     
     try {
-      const { token, user } = await api.login(
-        formData.username, 
+      console.log('🔐 Attempting login with:', {
+        username: formData.username,
+        role: formData.role,
+        passwordLength: formData.password.length
+      });
+      
+      const result = await api.login(
+        formData.username.trim(), 
         formData.password, 
         formData.role
       );
       
-      login(token, user);
+      console.log('✅ Login successful:', result);
+      
+      login(result.token, result.user);
       navigate('/dashboard');
     } catch (error) {
-      setError(error.response?.data?.error || 'Login failed');
+      console.error('❌ Login failed:', error);
+      
+      // Enhanced error handling
+      let errorMessage = 'Login failed. Please try again.';
+      
+      if (error.response?.status === 401) {
+        errorMessage = 'Invalid username, password, or role. Please check your credentials.';
+      } else if (error.response?.status === 400) {
+        errorMessage = 'Please fill in all required fields.';
+      } else if (error.response?.status >= 500) {
+        errorMessage = 'Server error. Please try again later.';
+      } else if (error.code === 'ERR_NETWORK') {
+        errorMessage = 'Unable to connect to server. Please check your connection.';
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -218,6 +276,24 @@ export default function Login() {
                   }}
                 >
                   {error}
+                </Alert>
+              )}
+
+              {connectionStatus && (
+                <Alert 
+                  severity={connectionStatus === 'connected' ? 'success' : 'warning'} 
+                  sx={{ 
+                    mb: 3,
+                    borderRadius: 2,
+                    '& .MuiAlert-icon': {
+                      fontSize: '1.2rem'
+                    }
+                  }}
+                >
+                  {connectionStatus === 'connected' 
+                    ? '✅ Connected to server' 
+                    : '⚠️ Server connection issue - check if backend is running'
+                  }
                 </Alert>
               )}
 

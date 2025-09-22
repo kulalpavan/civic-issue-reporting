@@ -27,22 +27,61 @@ async function saveUsers(users) {
 router.post('/login', async (req, res) => {
   try {
     const { username, password, role } = req.body;
-    const users = await getUsers();
     
+    console.log('🔐 Login attempt:', { username, role, hasPassword: !!password });
+    
+    // Validation
+    if (!username || !password || !role) {
+      console.log('❌ Login failed: Missing required fields');
+      return res.status(400).json({ error: 'Username, password, and role are required' });
+    }
+    
+    const users = await getUsers();
+    console.log('👥 Available users:', users.map(u => ({ username: u.username, role: u.role })));
+    
+    // Find user by username and role
     const user = users.find(u => u.username === username && u.role === role);
-    if (!user || !(await bcrypt.compare(password, user.password))) {
+    if (!user) {
+      console.log('❌ Login failed: User not found', { username, role });
       return res.status(401).json({ error: 'Invalid credentials' });
     }
-
+    
+    console.log('✅ User found:', { id: user.id, username: user.username, role: user.role });
+    
+    // Check password
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      console.log('❌ Login failed: Invalid password for user:', username);
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+    
+    console.log('✅ Password validated for user:', username);
+    
+    // Check JWT_SECRET
+    if (!process.env.JWT_SECRET) {
+      console.error('❌ JWT_SECRET not configured');
+      return res.status(500).json({ error: 'Server configuration error' });
+    }
+    
+    // Generate token
     const token = jwt.sign(
       { id: user.id, username: user.username, role: user.role },
       process.env.JWT_SECRET,
       { expiresIn: '24h' }
     );
-
-    res.json({ token, user: { id: user.id, username: user.username, role: user.role } });
+    
+    console.log('🎫 Token generated for user:', username);
+    
+    const responseData = { 
+      token, 
+      user: { id: user.id, username: user.username, role: user.role } 
+    };
+    
+    console.log('✅ Login successful:', { username, role });
+    res.json(responseData);
   } catch (error) {
-    res.status(500).json({ error: 'Server error' });
+    console.error('❌ Login error:', error);
+    res.status(500).json({ error: 'Server error during login' });
   }
 });
 
