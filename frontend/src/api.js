@@ -4,7 +4,7 @@ import axios from 'axios';
 const getApiUrl = () => {
   // Production environment (deployed)
   if (import.meta.env.PROD) {
-    return import.meta.env.VITE_API_URL || 'https://civic-issue-reporting-production.up.railway.app/api';
+    return import.meta.env.VITE_API_URL || 'https://civicissue-production.up.railway.app/api';
   }
   
   // Development environment
