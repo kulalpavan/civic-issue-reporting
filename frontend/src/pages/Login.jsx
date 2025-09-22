@@ -13,10 +13,6 @@ import {
   MenuItem,
   Alert,
   Avatar,
-  Divider,
-  Card,
-  CardContent,
-  Chip,
   useTheme,
   useMediaQuery,
   InputAdornment,
@@ -25,10 +21,9 @@ import {
 import { 
   AccountBalance as AccountBalanceIcon,
   Security as SecurityIcon,
-  People as PeopleIcon,
-  AdminPanelSettings as AdminIcon,
-  Badge as BadgeIcon,
   Person as PersonIcon,
+  Badge as BadgeIcon,
+  AdminPanelSettings as AdminIcon,
   Visibility,
   VisibilityOff
 } from '@mui/icons-material';
@@ -39,7 +34,8 @@ export default function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
   
   const [formData, setFormData] = useState({
     username: '',
@@ -144,83 +140,108 @@ export default function Login() {
     }
   };
 
-  const roleInfo = [
-    {
-      role: 'citizen',
-      icon: <PersonIcon />,
-      title: 'Citizen Portal',
-      description: 'Report issues and track their progress',
-      color: '#42A5F5',
-      credentials: { username: 'citizen1', password: 'citizen123' }
-    },
-    {
-      role: 'officer',
-      icon: <BadgeIcon />,
-      title: 'Officer Dashboard',
-      description: 'Manage and resolve reported issues',
-      color: '#66BB6A',
-      credentials: { username: 'officer1', password: 'officer123' }
-    },
-    {
-      role: 'admin',
-      icon: <AdminIcon />,
-      title: 'Admin Panel',
-      description: 'Full system administration and oversight',
-      color: '#FFA726',
-      credentials: { username: 'admin1', password: 'admin123' }
-    }
-  ];
 
-  const fillDemoCredentials = (role, username, password) => {
-    setFormData({ role, username, password });
-  };
 
   return (
     <Box
       sx={{
         minHeight: '100vh',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #e2e8f0 75%, #f8fafc 100%)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 2,
+        padding: { xs: 1, sm: 2, md: 3 },
+        position: 'relative',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.15), transparent 50%), radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.12), transparent 50%), radial-gradient(circle at 40% 60%, rgba(16, 185, 129, 0.08), transparent 50%)',
+          zIndex: 1
+        },
+        '&::after': {
+          content: '""',
+          position: 'absolute',
+          top: '50%',
+          left: 0,
+          right: 0,
+          height: '1px',
+          background: 'linear-gradient(90deg, transparent 0%, rgba(148, 163, 184, 0.3) 20%, rgba(148, 163, 184, 0.8) 50%, rgba(148, 163, 184, 0.3) 80%, transparent 100%)',
+          zIndex: 1
+        }
       }}
     >
-      <Container maxWidth="lg">
-        <Box className="fade-in">
+      <Container maxWidth="sm" sx={{ position: 'relative', zIndex: 2 }}>
+        <Box className="fade-in login-container">
           {/* Header Section */}
-          <Box sx={{ textAlign: 'center', mb: 4 }}>
+          <Box sx={{ textAlign: 'center', mb: { xs: 3, sm: 4, md: 5 } }}>
             <Avatar
               sx={{
-                width: 80,
-                height: 80,
-                margin: '0 auto 16px',
-                background: 'linear-gradient(135deg, #1565C0 0%, #1976D2 100%)',
-                fontSize: '2rem'
+                width: { xs: 70, sm: 80, md: 90, lg: 100 },
+                height: { xs: 70, sm: 80, md: 90, lg: 100 },
+                margin: '0 auto 20px',
+                background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #92400e 100%)',
+                fontSize: { xs: '1.8rem', sm: '2rem', md: '2.2rem', lg: '2.5rem' },
+                boxShadow: '0 15px 35px rgba(245, 158, 11, 0.4), 0 8px 20px rgba(217, 119, 6, 0.3)',
+                border: '3px solid rgba(255, 255, 255, 0.95)',
+                color: '#ffffff'
               }}
             >
               <AccountBalanceIcon fontSize="large" />
             </Avatar>
             <Typography 
-              variant="h3" 
+              variant="h1"
               component="h1" 
               className="gradient-text"
               sx={{ 
-                fontWeight: 700,
-                background: 'linear-gradient(135deg, #1565C0 0%, #1976D2 100%)',
+                fontWeight: { xs: 700, sm: 800, md: 900 },
+                fontSize: { 
+                  xs: '1.4rem',    // 22px - smaller for single line
+                  sm: '1.8rem',    // 29px  
+                  md: '2.2rem',    // 35px
+                  lg: '2.6rem',    // 42px
+                  xl: '3rem'       // 48px
+                },
+                lineHeight: 1,
+                background: 'linear-gradient(135deg, #ffffff 0%, #f1f5f9 30%, #1e293b 70%, #0f172a 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-                mb: 1
+                backgroundClip: 'text',
+                mb: { xs: 1, sm: 1.5 },
+                textShadow: '0 4px 8px rgba(0, 0, 0, 0.3)',
+                px: { xs: 1, sm: 2 },
+                maxWidth: '100%',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                letterSpacing: { xs: '-0.5px', sm: '-0.8px', md: '-1px' }
               }}
             >
               Civic Issue Reporting
             </Typography>
             <Typography 
-              variant="h6" 
+              variant={isMobile ? "body2" : isTablet ? "body1" : "h6"} 
               sx={{ 
-                color: 'white',
-                opacity: 0.9,
-                fontWeight: 300
+                color: '#e2e8f0',
+                fontWeight: { xs: 500, sm: 600 },
+                fontSize: { 
+                  xs: '0.85rem',   // 14px
+                  sm: '0.95rem',   // 15px
+                  md: '1.05rem',   // 17px
+                  lg: '1.15rem'    // 18px
+                },
+                lineHeight: 1.3,
+                textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)',
+                px: { xs: 2, sm: 3, md: 4 },
+                maxWidth: { xs: '95%', sm: '85%', md: '75%' },
+                mx: 'auto',
+                background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(226, 232, 240, 0.8) 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
               }}
             >
               Building Better Communities Together
@@ -229,10 +250,10 @@ export default function Login() {
 
           <Box
             sx={{
-              display: 'grid',
-              gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
-              gap: 4,
-              alignItems: 'start'
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%'
             }}
           >
             {/* Login Form */}
@@ -240,26 +261,66 @@ export default function Login() {
               elevation={24}
               className="slide-up"
               sx={{ 
-                p: 4,
-                borderRadius: 3,
-                background: 'rgba(255, 255, 255, 0.95)',
+                p: { xs: 3, sm: 4, md: 5 },
+                borderRadius: { xs: 3, sm: 4, md: 5 },
+                background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.92) 50%, rgba(51, 65, 85, 0.90) 100%)',
                 backdropFilter: 'blur(20px)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                order: isMobile ? 2 : 1
+                border: '2px solid rgba(148, 163, 184, 0.2)',
+                width: '100%',
+                maxWidth: { xs: '100%', sm: 450, md: 520, lg: 550 },
+                boxShadow: '0 25px 50px rgba(0, 0, 0, 0.25), 0 15px 35px rgba(15, 23, 42, 0.3), 0 5px 15px rgba(0, 0, 0, 0.1)',
+                transition: 'all 0.3s ease',
+                '&:hover': {
+                  transform: 'translateY(-8px)',
+                  boxShadow: '0 35px 60px rgba(0, 0, 0, 0.3), 0 20px 40px rgba(15, 23, 42, 0.4), 0 8px 25px rgba(0, 0, 0, 0.15)',
+                  border: '2px solid rgba(248, 250, 252, 0.3)'
+                }
               }}
             >
-              <Box sx={{ textAlign: 'center', mb: 3 }}>
+              <Box sx={{ textAlign: 'center', mb: { xs: 3, sm: 4 } }}>
                 <SecurityIcon 
                   sx={{ 
-                    fontSize: 48, 
-                    color: theme.palette.primary.main,
-                    mb: 1 
+                    fontSize: { xs: 45, sm: 52, md: 60 }, 
+                    color: '#10b981',
+                    mb: 1.5,
+                    filter: 'drop-shadow(0 4px 8px rgba(16, 185, 129, 0.4))'
                   }} 
                 />
-                <Typography variant="h4" component="h2" gutterBottom>
+                <Typography 
+                  variant={isMobile ? "h4" : "h3"} 
+                  component="h2" 
+                  gutterBottom
+                  sx={{
+                    fontWeight: { xs: 600, sm: 700 },
+                    color: '#f8fafc',
+                    fontSize: { 
+                      xs: '1.5rem',   // 24px
+                      sm: '1.75rem',  // 28px
+                      md: '2rem',     // 32px
+                      lg: '2.25rem'   // 36px
+                    },
+                    lineHeight: 1.2,
+                    mb: 1,
+                    textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)',
+                    background: 'linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text'
+                  }}
+                >
                   Secure Login
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography 
+                  variant="body1" 
+                  color="text.secondary"
+                  sx={{ 
+                    fontSize: { xs: '0.9rem', sm: '1rem', md: '1.1rem' },
+                    color: '#cbd5e1',
+                    fontWeight: 400,
+                    lineHeight: 1.4,
+                    textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)'
+                  }}
+                >
                   Access your civic portal
                 </Typography>
               </Box>
@@ -269,9 +330,19 @@ export default function Login() {
                   severity="error" 
                   sx={{ 
                     mb: 3,
-                    borderRadius: 2,
+                    borderRadius: 3,
+                    backgroundColor: 'rgba(220, 38, 38, 0.1)',
+                    borderLeft: '4px solid #dc2626',
+                    border: '1px solid rgba(220, 38, 38, 0.2)',
                     '& .MuiAlert-icon': {
-                      fontSize: '1.2rem'
+                      fontSize: '1.3rem',
+                      color: '#f87171'
+                    },
+                    '& .MuiAlert-message': {
+                      color: '#fecaca',
+                      fontSize: { xs: '0.9rem', sm: '1rem' },
+                      fontWeight: 500,
+                      lineHeight: 1.4
                     }
                   }}
                 >
@@ -284,9 +355,25 @@ export default function Login() {
                   severity={connectionStatus === 'connected' ? 'success' : 'warning'} 
                   sx={{ 
                     mb: 3,
-                    borderRadius: 2,
+                    borderRadius: 3,
+                    backgroundColor: connectionStatus === 'connected' 
+                      ? 'rgba(16, 185, 129, 0.1)' 
+                      : 'rgba(245, 158, 11, 0.1)',
+                    borderLeft: connectionStatus === 'connected'
+                      ? '4px solid #10b981'
+                      : '4px solid #f59e0b',
+                    border: connectionStatus === 'connected'
+                      ? '1px solid rgba(16, 185, 129, 0.2)'
+                      : '1px solid rgba(245, 158, 11, 0.2)',
                     '& .MuiAlert-icon': {
-                      fontSize: '1.2rem'
+                      fontSize: '1.3rem',
+                      color: connectionStatus === 'connected' ? '#34d399' : '#fbbf24'
+                    },
+                    '& .MuiAlert-message': {
+                      color: connectionStatus === 'connected' ? '#a7f3d0' : '#fde68a',
+                      fontSize: { xs: '0.9rem', sm: '1rem' },
+                      fontWeight: 500,
+                      lineHeight: 1.4
                     }
                   }}
                 >
@@ -306,7 +393,40 @@ export default function Login() {
                   onChange={handleChange}
                   margin="normal"
                   required
-                  sx={{ mb: 2 }}
+                  sx={{ 
+                    mb: 2.5,
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 3,
+                      backgroundColor: 'rgba(248, 250, 252, 0.05)',
+                      '& fieldset': {
+                        borderColor: 'rgba(203, 213, 225, 0.3)',
+                        borderWidth: '2px'
+                      },
+                      '&:hover fieldset': {
+                        borderColor: 'rgba(16, 185, 129, 0.6)'
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: '#10b981',
+                        borderWidth: '2px'
+                      }
+                    },
+                    '& .MuiInputLabel-root': {
+                      color: '#cbd5e1',
+                      fontWeight: 500
+                    },
+                    '& .MuiInputLabel-root.Mui-focused': {
+                      color: '#10b981',
+                      fontWeight: 600
+                    },
+                    '& .MuiInputBase-input': {
+                      color: '#f1f5f9',
+                      fontSize: { xs: '1rem', sm: '1.1rem' },
+                      fontWeight: 500,
+                      '&::placeholder': {
+                        color: 'rgba(203, 213, 225, 0.6)'
+                      }
+                    }
+                  }}
                 />
                 
                 <TextField
@@ -318,7 +438,40 @@ export default function Login() {
                   onChange={handleChange}
                   margin="normal"
                   required
-                  sx={{ mb: 2 }}
+                  sx={{ 
+                    mb: 2.5,
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 3,
+                      backgroundColor: 'rgba(248, 250, 252, 0.05)',
+                      '& fieldset': {
+                        borderColor: 'rgba(203, 213, 225, 0.3)',
+                        borderWidth: '2px'
+                      },
+                      '&:hover fieldset': {
+                        borderColor: 'rgba(16, 185, 129, 0.6)'
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: '#10b981',
+                        borderWidth: '2px'
+                      }
+                    },
+                    '& .MuiInputLabel-root': {
+                      color: '#cbd5e1',
+                      fontWeight: 500
+                    },
+                    '& .MuiInputLabel-root.Mui-focused': {
+                      color: '#10b981',
+                      fontWeight: 600
+                    },
+                    '& .MuiInputBase-input': {
+                      color: '#f1f5f9',
+                      fontSize: { xs: '1rem', sm: '1.1rem' },
+                      fontWeight: 500,
+                      '&::placeholder': {
+                        color: 'rgba(203, 213, 225, 0.6)'
+                      }
+                    }
+                  }}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
@@ -328,6 +481,7 @@ export default function Login() {
                           onMouseDown={handleMouseDownPassword}
                           edge="end"
                           size="large"
+                          sx={{ color: '#94a3b8', '&:hover': { color: '#10b981' } }}
                         >
                           {showPassword ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
@@ -336,7 +490,45 @@ export default function Login() {
                   }}
                 />
                 
-                <FormControl fullWidth margin="normal" required sx={{ mb: 3 }}>
+                <FormControl 
+                  fullWidth 
+                  margin="normal" 
+                  required 
+                  sx={{ 
+                    mb: 3.5,
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 3,
+                      backgroundColor: 'rgba(248, 250, 252, 0.05)',
+                      '& fieldset': {
+                        borderColor: 'rgba(203, 213, 225, 0.3)',
+                        borderWidth: '2px'
+                      },
+                      '&:hover fieldset': {
+                        borderColor: 'rgba(16, 185, 129, 0.6)'
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: '#10b981',
+                        borderWidth: '2px'
+                      }
+                    },
+                    '& .MuiInputLabel-root': {
+                      color: '#cbd5e1',
+                      fontWeight: 500
+                    },
+                    '& .MuiInputLabel-root.Mui-focused': {
+                      color: '#10b981',
+                      fontWeight: 600
+                    },
+                    '& .MuiSelect-select': {
+                      color: '#f1f5f9',
+                      fontSize: { xs: '1rem', sm: '1.1rem' },
+                      fontWeight: 500
+                    },
+                    '& .MuiSelect-icon': {
+                      color: '#cbd5e1'
+                    }
+                  }}
+                >
                   <InputLabel>Role</InputLabel>
                   <Select
                     name="role"
@@ -344,22 +536,43 @@ export default function Login() {
                     onChange={handleChange}
                     label="Role"
                   >
-                    <MenuItem value="citizen">
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <PersonIcon fontSize="small" />
-                        Citizen
+                    <MenuItem 
+                      value="citizen"
+                      sx={{ 
+                        backgroundColor: 'rgba(15, 23, 42, 0.8)',
+                        color: '#f1f5f9',
+                        '&:hover': { backgroundColor: 'rgba(16, 185, 129, 0.1)' }
+                      }}
+                    >
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                        <PersonIcon fontSize="small" sx={{ color: '#10b981' }} />
+                        <Typography sx={{ color: '#f1f5f9', fontWeight: 500 }}>Citizen</Typography>
                       </Box>
                     </MenuItem>
-                    <MenuItem value="officer">
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <BadgeIcon fontSize="small" />
-                        Officer
+                    <MenuItem 
+                      value="officer"
+                      sx={{ 
+                        backgroundColor: 'rgba(15, 23, 42, 0.8)',
+                        color: '#f1f5f9',
+                        '&:hover': { backgroundColor: 'rgba(236, 72, 153, 0.1)' }
+                      }}
+                    >
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                        <BadgeIcon fontSize="small" sx={{ color: '#ec4899' }} />
+                        <Typography sx={{ color: '#f1f5f9', fontWeight: 500 }}>Officer</Typography>
                       </Box>
                     </MenuItem>
-                    <MenuItem value="admin">
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <AdminIcon fontSize="small" />
-                        Admin
+                    <MenuItem 
+                      value="admin"
+                      sx={{ 
+                        backgroundColor: 'rgba(15, 23, 42, 0.8)',
+                        color: '#f1f5f9',
+                        '&:hover': { backgroundColor: 'rgba(245, 158, 11, 0.1)' }
+                      }}
+                    >
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                        <AdminIcon fontSize="small" sx={{ color: '#f59e0b' }} />
+                        <Typography sx={{ color: '#f1f5f9', fontWeight: 500 }}>Admin</Typography>
                       </Box>
                     </MenuItem>
                   </Select>
@@ -371,13 +584,35 @@ export default function Login() {
                   variant="contained"
                   size="large"
                   disabled={isLoading}
+                  className="ripple-button"
                   sx={{ 
-                    py: 1.5,
-                    fontSize: '1.1rem',
+                    py: { xs: 1.4, sm: 1.6, md: 1.8 },
+                    fontSize: { xs: '1rem', sm: '1.1rem', md: '1.2rem' },
                     fontWeight: 600,
-                    background: 'linear-gradient(135deg, #1565C0 0%, #1976D2 100%)',
+                    borderRadius: 3,
+                    background: 'linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%)',
+                    color: '#ffffff',
+                    boxShadow: '0 6px 20px rgba(16, 185, 129, 0.4), 0 3px 12px rgba(5, 150, 105, 0.3)',
+                    transition: 'all 0.3s ease',
+                    textTransform: 'none',
+                    letterSpacing: '0.5px',
+                    border: '2px solid transparent',
                     '&:hover': {
-                      background: 'linear-gradient(135deg, #0D47A1 0%, #1565C0 100%)',
+                      background: 'linear-gradient(135deg, #059669 0%, #047857 50%, #065f46 100%)',
+                      boxShadow: '0 8px 25px rgba(16, 185, 129, 0.5), 0 4px 15px rgba(5, 150, 105, 0.4)',
+                      transform: 'translateY(-2px)',
+                      border: '2px solid rgba(16, 185, 129, 0.3)'
+                    },
+                    '&:active': {
+                      transform: 'translateY(0)',
+                      boxShadow: '0 4px 15px rgba(16, 185, 129, 0.4)'
+                    },
+                    '&:disabled': {
+                      background: 'linear-gradient(135deg, rgba(100, 116, 139, 0.6) 0%, rgba(71, 85, 105, 0.6) 100%)',
+                      color: 'rgba(203, 213, 225, 0.6)',
+                      boxShadow: 'none',
+                      transform: 'none',
+                      border: '2px solid transparent'
                     }
                   }}
                 >
@@ -385,168 +620,6 @@ export default function Login() {
                 </Button>
               </form>
             </Paper>
-
-            {/* Demo Credentials */}
-            <Box className="slide-up" sx={{ order: isMobile ? 1 : 2 }}>
-              <Paper
-                sx={{
-                  p: 3,
-                  background: 'rgba(255, 255, 255, 0.1)',
-                  backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                  borderRadius: 3,
-                  mb: 3
-                }}
-              >
-                <Typography 
-                  variant="h5" 
-                  sx={{ 
-                    color: 'white',
-                    fontWeight: 600,
-                    mb: 2,
-                    textAlign: 'center'
-                  }}
-                >
-                  Demo Credentials
-                </Typography>
-                <Typography 
-                  variant="body2" 
-                  sx={{ 
-                    color: 'rgba(255, 255, 255, 0.8)',
-                    textAlign: 'center',
-                    mb: 3
-                  }}
-                >
-                  Click on any role below to auto-fill login credentials
-                </Typography>
-
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                  {roleInfo.map((info) => (
-                    <Card
-                      key={info.role}
-                      className="card-hover"
-                      onClick={() => fillDemoCredentials(info.role, info.credentials.username, info.credentials.password)}
-                      sx={{
-                        background: 'rgba(255, 255, 255, 0.15)',
-                        backdropFilter: 'blur(10px)',
-                        border: '1px solid rgba(255, 255, 255, 0.2)',
-                        cursor: 'pointer',
-                        transition: 'all 0.3s ease',
-                        '&:hover': {
-                          background: 'rgba(255, 255, 255, 0.25)',
-                          transform: 'translateY(-2px)',
-                        }
-                      }}
-                    >
-                      <CardContent sx={{ p: 2 }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                          <Avatar
-                            sx={{
-                              bgcolor: info.color,
-                              width: 40,
-                              height: 40
-                            }}
-                          >
-                            {info.icon}
-                          </Avatar>
-                          <Box sx={{ flex: 1 }}>
-                            <Typography 
-                              variant="h6" 
-                              sx={{ 
-                                color: 'white',
-                                fontWeight: 600,
-                                fontSize: '1rem',
-                                mb: 0.5
-                              }}
-                            >
-                              {info.title}
-                            </Typography>
-                            <Typography 
-                              variant="body2" 
-                              sx={{ 
-                                color: 'rgba(255, 255, 255, 0.8)',
-                                fontSize: '0.875rem'
-                              }}
-                            >
-                              {info.description}
-                            </Typography>
-                            <Box sx={{ mt: 1, display: 'flex', gap: 1 }}>
-                              <Chip 
-                                label={info.credentials.username}
-                                size="small"
-                                sx={{ 
-                                  bgcolor: 'rgba(255, 255, 255, 0.2)',
-                                  color: 'white',
-                                  fontSize: '0.75rem'
-                                }}
-                              />
-                              <Chip 
-                                label={info.credentials.password}
-                                size="small"
-                                sx={{ 
-                                  bgcolor: 'rgba(255, 255, 255, 0.2)',
-                                  color: 'white',
-                                  fontSize: '0.75rem'
-                                }}
-                              />
-                            </Box>
-                          </Box>
-                        </Box>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </Box>
-              </Paper>
-
-              {/* Features List */}
-              <Paper
-                sx={{
-                  p: 3,
-                  background: 'rgba(255, 255, 255, 0.1)',
-                  backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                  borderRadius: 3
-                }}
-              >
-                <Typography 
-                  variant="h6" 
-                  sx={{ 
-                    color: 'white',
-                    fontWeight: 600,
-                    mb: 2,
-                    textAlign: 'center'
-                  }}
-                >
-                  Platform Features
-                </Typography>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                  {[
-                    'Report civic issues with photos',
-                    'Track issue status and progress',
-                    'Real-time dashboard analytics',
-                    'Role-based access control',
-                    'Community collaboration tools'
-                  ].map((feature, index) => (
-                    <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <Box
-                        sx={{
-                          width: 6,
-                          height: 6,
-                          borderRadius: '50%',
-                          bgcolor: '#66BB6A'
-                        }}
-                      />
-                      <Typography 
-                        variant="body2" 
-                        sx={{ color: 'rgba(255, 255, 255, 0.9)' }}
-                      >
-                        {feature}
-                      </Typography>
-                    </Box>
-                  ))}
-                </Box>
-              </Paper>
-            </Box>
           </Box>
         </Box>
       </Container>
