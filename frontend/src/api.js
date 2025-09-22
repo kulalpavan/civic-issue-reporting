@@ -2,35 +2,106 @@ import axios from 'axios';
 
 // API URL configuration for different environments
 const getApiUrl = () => {
-  // Force local development for now until Railway is fixed
-  return 'http://localhost:5000/api';
+  // Production environment (deployed frontend)
+  if (import.meta.env.PROD) {
+    // Try Railway first, fallback to current host with port 5000
+    const railwayUrl = 'https://civicissue-production.up.railway.app/api';
+    const fallbackUrl = `http://${window.location.hostname}:5000/api`;
+    
+    // For now, use fallback since Railway has deployment issues
+    console.log('🌐 Production mode detected, using fallback:', fallbackUrl);
+    return fallbackUrl;
+  }
   
-  // TODO: Re-enable when Railway is working
-  // Production environment (deployed)
-  // if (import.meta.env.PROD) {
-  //   return import.meta.env.VITE_API_URL || 'https://civicissue-production.up.railway.app/api';
-  // }
+  // Development environment - smart detection
+  const hostname = window.location.hostname;
   
-  // Development environment
-  // if (window.location.hostname === 'localhost') {
-  //   return 'http://localhost:5000/api';
-  // }
-  
-  // Local network access
-  // return `http://${window.location.hostname}:5000/api`;
+  if (hostname === 'localhost' || hostname === '127.0.0.1') {
+    // Running on localhost
+    console.log('💻 Localhost detected');
+    return 'http://localhost:5000/api';
+  } else {
+    // Running on network IP (like 10.219.88.162)
+    console.log('📱 Network access detected from:', hostname);
+    return `http://${hostname}:5000/api`;
+  }
 };
 
 const API_URL = getApiUrl();
 
 console.log('🔗 API URL:', API_URL);
 
+// Test connection and provide fallback options
+const testApiConnection = async (url) => {
+  try {
+    const response = await fetch(`${url}/test`, { 
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      signal: AbortSignal.timeout(5000) // 5 second timeout
+    });
+    return response.ok;
+  } catch (error) {
+    console.warn(`Connection test failed for ${url}:`, error.message);
+    return false;
+  }
+};
+
+// Smart API URL with automatic fallback
+let currentApiUrl = API_URL;
+
+const getWorkingApiUrl = async () => {
+  const hostname = window.location.hostname;
+  const possibleUrls = [];
+  
+  // Add current detected URL first
+  possibleUrls.push(currentApiUrl);
+  
+  // Add fallback URLs based on environment
+  if (hostname === 'localhost' || hostname === '127.0.0.1') {
+    possibleUrls.push('http://localhost:5000/api');
+    possibleUrls.push(`http://10.219.88.162:5000/api`); // Common network IP
+  } else {
+    possibleUrls.push(`http://${hostname}:5000/api`);
+    possibleUrls.push('http://localhost:5000/api');
+  }
+  
+  // Remove duplicates
+  const uniqueUrls = [...new Set(possibleUrls)];
+  
+  console.log('🔍 Testing API connections:', uniqueUrls);
+  
+  for (const url of uniqueUrls) {
+    const baseUrl = url.replace('/api', '');
+    if (await testApiConnection(baseUrl)) {
+      console.log('✅ Found working API:', url);
+      currentApiUrl = url;
+      return url;
+    }
+  }
+  
+  console.warn('⚠️ No working API found, using default:', currentApiUrl);
+  return currentApiUrl;
+};
+
+// Initialize with working URL
+getWorkingApiUrl().then(url => {
+  console.log('🚀 API initialized with:', url);
+});
+
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL: currentApiUrl,
   timeout: 15000, // 15 second timeout
   headers: {
     'Content-Type': 'application/json',
   },
 });
+
+// Update base URL dynamically
+const updateApiBaseUrl = async () => {
+  const workingUrl = await getWorkingApiUrl();
+  api.defaults.baseURL = workingUrl;
+  return workingUrl;
+};
 
 // Request interceptor to add auth token and logging
 api.interceptors.request.use(
@@ -54,7 +125,7 @@ api.interceptors.response.use(
     console.log('📥 API Response:', response.status, response.data);
     return response;
   },
-  (error) => {
+  async (error) => {
     console.error('📥 API Error:', {
       status: error.response?.status,
       statusText: error.response?.statusText,
@@ -67,11 +138,27 @@ api.interceptors.response.use(
       }
     });
     
+    // If it's a network error, try to find a working API URL
+    if (error.code === 'ERR_NETWORK' || error.code === 'ECONNABORTED') {
+      console.log('🔄 Network error detected, trying to find working API...');
+      try {
+        const newUrl = await updateApiBaseUrl();
+        if (newUrl !== error.config.baseURL) {
+          console.log('🔄 Retrying request with new URL:', newUrl);
+          // Clone the original request config with new base URL
+          const retryConfig = { ...error.config, baseURL: newUrl };
+          return api.request(retryConfig);
+        }
+      } catch (retryError) {
+        console.error('🚫 Retry failed:', retryError);
+      }
+    }
+    
     // Provide more user-friendly error messages
     if (error.code === 'ECONNABORTED') {
       error.message = 'Request timeout - please check your connection';
     } else if (error.code === 'ERR_NETWORK') {
-      error.message = 'Network error - unable to connect to server';
+      error.message = 'Network error - unable to connect to server. Please ensure the backend is running.';
     } else if (error.response?.status === 401) {
       error.message = 'Authentication failed - please log in again';
       // Clear invalid token
@@ -160,6 +247,7 @@ export const deleteIssue = async (issueId) => {
 // Test connection function
 export const testConnection = async () => {
   try {
+    await updateApiBaseUrl(); // Ensure we're using the best URL
     const response = await api.get('/test');
     return response.data;
   } catch (error) {
@@ -167,3 +255,9 @@ export const testConnection = async () => {
     throw error;
   }
 };
+
+// Get current API URL for debugging
+export const getCurrentApiUrl = () => currentApiUrl;
+
+// Manual API URL update (useful for troubleshooting)
+export const refreshApiConnection = () => updateApiBaseUrl();
