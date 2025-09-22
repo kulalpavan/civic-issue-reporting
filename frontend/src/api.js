@@ -2,22 +2,12 @@ import axios from 'axios';
 
 // API URL configuration for different environments
 const getApiUrl = () => {
-  // Production environment (deployed)
-  if (import.meta.env.PROD) {
-    return import.meta.env.VITE_API_URL || 'https://civic-backend-v2.loca.lt/api';
-  }
-  
-  // Development environment
+  // Development environment (localhost)
   if (window.location.hostname === 'localhost') {
     return 'http://localhost:5000/api';
   }
   
-  // LocalTunnel public access
-  if (window.location.hostname.includes('loca.lt')) {
-    return 'https://civic-backend-v2.loca.lt/api';
-  }
-  
-  // Local network access
+  // Local network access (for other devices on same network)
   return `http://${window.location.hostname}:5000/api`;
 };
 
