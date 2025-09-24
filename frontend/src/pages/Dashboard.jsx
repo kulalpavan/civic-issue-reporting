@@ -894,18 +894,203 @@ export default function Dashboard() {
             <Fade in timeout={600}>
               <Box>
                 <Typography variant="h4" sx={{ color: '#f8fafc', mb: 3, fontWeight: 700 }}>
-                  Analytics Dashboard
+                  📊 Analytics Dashboard
                 </Typography>
-                {/* Add more detailed analytics here */}
-                <Grid container spacing={3}>
+                <Typography variant="h6" sx={{ color: '#cbd5e1', mb: 4, fontWeight: 400 }}>
+                  Comprehensive insights and statistics for civic issues
+                </Typography>
+
+                {/* Statistics Summary Cards */}
+                <Grid container spacing={3} sx={{ mb: 4 }}>
+                  <Grid item xs={12} sm={6} md={3}>
+                    <Card sx={{ 
+                      p: 3, 
+                      background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                      color: 'white',
+                      textAlign: 'center'
+                    }}>
+                      <Typography variant="h3" sx={{ fontWeight: 700, mb: 1 }}>
+                        {statsData.total}
+                      </Typography>
+                      <Typography variant="body1">Total Issues</Typography>
+                    </Card>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={3}>
+                    <Card sx={{ 
+                      p: 3, 
+                      background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                      color: 'white',
+                      textAlign: 'center'
+                    }}>
+                      <Typography variant="h3" sx={{ fontWeight: 700, mb: 1 }}>
+                        {statsData.resolved}
+                      </Typography>
+                      <Typography variant="body1">Resolved</Typography>
+                      <Typography variant="caption">
+                        {statsData.total > 0 ? `${((statsData.resolved / statsData.total) * 100).toFixed(1)}%` : '0%'}
+                      </Typography>
+                    </Card>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={3}>
+                    <Card sx={{ 
+                      p: 3, 
+                      background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+                      color: 'white',
+                      textAlign: 'center'
+                    }}>
+                      <Typography variant="h3" sx={{ fontWeight: 700, mb: 1 }}>
+                        {statsData.inProgress}
+                      </Typography>
+                      <Typography variant="body1">In Progress</Typography>
+                      <Typography variant="caption">
+                        {statsData.total > 0 ? `${((statsData.inProgress / statsData.total) * 100).toFixed(1)}%` : '0%'}
+                      </Typography>
+                    </Card>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={3}>
+                    <Card sx={{ 
+                      p: 3, 
+                      background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+                      color: 'white',
+                      textAlign: 'center'
+                    }}>
+                      <Typography variant="h3" sx={{ fontWeight: 700, mb: 1 }}>
+                        {statsData.pending}
+                      </Typography>
+                      <Typography variant="body1">Pending</Typography>
+                      <Typography variant="caption">
+                        {statsData.total > 0 ? `${((statsData.pending / statsData.total) * 100).toFixed(1)}%` : '0%'}
+                      </Typography>
+                    </Card>
+                  </Grid>
+                </Grid>
+
+                {/* Enhanced Charts Section */}
+                <Grid container spacing={4}>
+                  {/* Large Bar Chart */}
+                  <Grid item xs={12} lg={8}>
+                    <Card sx={{ 
+                      height: 500,
+                      background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%)',
+                      backdropFilter: 'blur(20px)',
+                      border: '1px solid rgba(255, 255, 255, 0.18)',
+                      borderRadius: 3
+                    }}>
+                      <CardContent sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                          <Avatar sx={{ bgcolor: '#3b82f6', mr: 2 }}>
+                            <AnalyticsIcon />
+                          </Avatar>
+                          <Box>
+                            <Typography variant="h5" fontWeight={700} sx={{ color: '#1e293b' }}>
+                              Issues Distribution Analysis
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                              Detailed breakdown of all civic issues by status
+                            </Typography>
+                          </Box>
+                        </Box>
+                        <Box sx={{ flex: 1, position: 'relative', minHeight: 350 }}>
+                          {loading ? (
+                            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+                              <LinearProgress sx={{ width: '50%' }} />
+                            </Box>
+                          ) : (
+                            <Bar data={barChartData} options={chartOptions} />
+                          )}
+                        </Box>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+
+                  {/* Enhanced Pie Chart */}
+                  <Grid item xs={12} lg={4}>
+                    <Card sx={{ 
+                      height: 500,
+                      background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%)',
+                      backdropFilter: 'blur(20px)',
+                      border: '1px solid rgba(255, 255, 255, 0.18)',
+                      borderRadius: 3
+                    }}>
+                      <CardContent sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                          <Avatar sx={{ bgcolor: '#10b981', mr: 2 }}>
+                            <TrendingUpIcon />
+                          </Avatar>
+                          <Box>
+                            <Typography variant="h6" fontWeight={700} sx={{ color: '#1e293b' }}>
+                              Status Overview
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                              Resolution progress
+                            </Typography>
+                          </Box>
+                        </Box>
+                        <Box sx={{ flex: 1, position: 'relative', minHeight: 300 }}>
+                          {loading ? (
+                            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+                              <LinearProgress sx={{ width: '50%' }} />
+                            </Box>
+                          ) : (
+                            <Pie data={pieChartData} options={pieOptions} />
+                          )}
+                        </Box>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                </Grid>
+
+                {/* Additional Analytics Information */}
+                <Grid container spacing={3} sx={{ mt: 2 }}>
                   <Grid item xs={12} md={6}>
-                    <Card sx={{ p: 3, background: 'rgba(255, 255, 255, 0.9)' }}>
-                      <Bar data={barChartData} options={chartOptions} />
+                    <Card sx={{ 
+                      p: 3, 
+                      background: 'rgba(255, 255, 255, 0.9)',
+                      borderRadius: 3
+                    }}>
+                      <Typography variant="h6" gutterBottom sx={{ color: '#1e293b', fontWeight: 600 }}>
+                        📈 Key Metrics
+                      </Typography>
+                      <Box sx={{ mt: 2 }}>
+                        <Typography variant="body2" sx={{ mb: 1 }}>
+                          <strong>Resolution Rate:</strong> {statsData.total > 0 ? `${((statsData.resolved / statsData.total) * 100).toFixed(1)}%` : '0%'}
+                        </Typography>
+                        <Typography variant="body2" sx={{ mb: 1 }}>
+                          <strong>Active Issues:</strong> {statsData.inProgress + statsData.pending}
+                        </Typography>
+                        <Typography variant="body2" sx={{ mb: 1 }}>
+                          <strong>Completion Rate:</strong> {statsData.total > 0 ? `${(((statsData.resolved + statsData.inProgress) / statsData.total) * 100).toFixed(1)}%` : '0%'}
+                        </Typography>
+                      </Box>
                     </Card>
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <Card sx={{ p: 3, background: 'rgba(255, 255, 255, 0.9)' }}>
-                      <Pie data={pieChartData} options={pieOptions} />
+                    <Card sx={{ 
+                      p: 3, 
+                      background: 'rgba(255, 255, 255, 0.9)',
+                      borderRadius: 3
+                    }}>
+                      <Typography variant="h6" gutterBottom sx={{ color: '#1e293b', fontWeight: 600 }}>
+                        🎯 Performance Summary
+                      </Typography>
+                      <Box sx={{ mt: 2 }}>
+                        <Typography variant="body2" sx={{ mb: 1 }}>
+                          <strong>Most Common Status:</strong> {
+                            Math.max(statsData.resolved, statsData.pending, statsData.inProgress) === statsData.resolved ? 'Resolved' :
+                            Math.max(statsData.pending, statsData.inProgress) === statsData.pending ? 'Pending' : 'In Progress'
+                          }
+                        </Typography>
+                        <Typography variant="body2" sx={{ mb: 1 }}>
+                          <strong>Issues Needing Attention:</strong> {statsData.pending}
+                        </Typography>
+                        <Typography variant="body2" sx={{ mb: 1 }}>
+                          <strong>System Health:</strong> {
+                            statsData.total === 0 ? 'No Data' :
+                            (statsData.resolved / statsData.total) > 0.7 ? '🟢 Excellent' :
+                            (statsData.resolved / statsData.total) > 0.5 ? '🟡 Good' : '🔴 Needs Improvement'
+                          }
+                        </Typography>
+                      </Box>
                     </Card>
                   </Grid>
                 </Grid>
