@@ -103,24 +103,26 @@ export default function Dashboard() {
     token: auth?.token ? 'present' : 'missing' 
   });
 
-  // Early return for debugging - temporarily show simple content
+  // Early return for debugging - show error if no auth
   if (!auth || !auth.user) {
     console.log('❌ No auth data, showing error message');
     return (
-      <Box sx={{ p: 3, textAlign: 'center' }}>
-        <Typography variant="h4" color="error">
-          Authentication Error
-        </Typography>
-        <Typography variant="body1">
-          No authentication data found. Please log in again.
-        </Typography>
-        <Button 
-          variant="contained" 
-          onClick={() => navigate('/login')}
-          sx={{ mt: 2 }}
-        >
-          Go to Login
-        </Button>
+      <Box sx={{ p: 3, textAlign: 'center', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Paper sx={{ p: 4, textAlign: 'center' }}>
+          <Typography variant="h4" color="error" gutterBottom>
+            Authentication Error
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            No authentication data found. Please log in again.
+          </Typography>
+          <Button 
+            variant="contained" 
+            onClick={() => navigate('/login')}
+            sx={{ mt: 2 }}
+          >
+            Go to Login
+          </Button>
+        </Paper>
       </Box>
     );
   }
