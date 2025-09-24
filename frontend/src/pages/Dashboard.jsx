@@ -102,6 +102,9 @@ export default function Dashboard() {
   const [selectedView, setSelectedView] = useState('overview');
   const [reportDialogOpen, setReportDialogOpen] = useState(false);
   const [settingsDialogOpen, setSettingsDialogOpen] = useState(false);
+  const [searchDialogOpen, setSearchDialogOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredIssues, setFilteredIssues] = useState([]);
   const [notificationCount, setNotificationCount] = useState(3);
   const [statsData, setStatsData] = useState({
     total: 0,
@@ -120,6 +123,7 @@ export default function Dashboard() {
         fetchedIssues = await api.getAllIssues();
       }
       setIssues(fetchedIssues);
+      setFilteredIssues(fetchedIssues);
       
       // Calculate statistics
       setStatsData({
@@ -193,6 +197,46 @@ export default function Dashboard() {
     logout();
     navigate('/login');
   };
+
+  // Handle search functionality
+  const handleSearch = (query) => {
+    if (!query.trim()) {
+      setFilteredIssues(issues);
+      return;
+    }
+
+    const searchResults = issues.filter(issue => 
+      issue.title?.toLowerCase().includes(query.toLowerCase()) ||
+      issue.description?.toLowerCase().includes(query.toLowerCase()) ||
+      issue.category?.toLowerCase().includes(query.toLowerCase()) ||
+      issue.status?.toLowerCase().includes(query.toLowerCase()) ||
+      issue.location?.toLowerCase().includes(query.toLowerCase())
+    );
+    
+    setFilteredIssues(searchResults);
+  };
+
+  const handleSearchSubmit = () => {
+    handleSearch(searchQuery);
+    if (selectedView !== 'issues') {
+      setSelectedView('issues');
+    }
+    setSearchDialogOpen(false);
+  };
+
+  const clearSearch = () => {
+    setSearchQuery('');
+    setFilteredIssues(issues);
+  };
+
+  // Update filtered issues when main issues array changes
+  useEffect(() => {
+    if (!searchQuery) {
+      setFilteredIssues(issues);
+    } else {
+      handleSearch(searchQuery);
+    }
+  }, [issues]);
 
   // Navigation menu items
   const menuItems = [
@@ -404,7 +448,7 @@ export default function Dashboard() {
           
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <Tooltip title="Search Issues">
-              <IconButton color="inherit">
+              <IconButton color="inherit" onClick={() => setSearchDialogOpen(true)}>
                 <SearchIcon />
               </IconButton>
             </Tooltip>
@@ -802,11 +846,24 @@ export default function Dashboard() {
           {selectedView === 'issues' && (
             <Fade in timeout={600}>
               <Box>
-                <Typography variant="h4" sx={{ color: '#f8fafc', mb: 3, fontWeight: 700 }}>
-                  All Issues
-                </Typography>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+                  <Typography variant="h4" sx={{ color: '#f8fafc', fontWeight: 700 }}>
+                    {filteredIssues.length > 0 && filteredIssues.length !== issues.length 
+                      ? `Search Results (${filteredIssues.length} of ${issues.length})` 
+                      : 'All Issues'}
+                  </Typography>
+                  {filteredIssues.length !== issues.length && (
+                    <Button 
+                      variant="outlined" 
+                      onClick={clearSearch}
+                      sx={{ color: '#f8fafc', borderColor: '#f8fafc' }}
+                    >
+                      Clear Search
+                    </Button>
+                  )}
+                </Box>
                 <EnhancedIssueList 
-                  issues={issues} 
+                  issues={filteredIssues.length > 0 || searchQuery ? filteredIssues : issues} 
                   onIssueUpdated={fetchIssues}
                   onIssueDeleted={fetchIssues}
                 />
@@ -938,6 +995,86 @@ export default function Dashboard() {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setSettingsDialogOpen(false)}>Close</Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Search Dialog */}
+      <Dialog
+        open={searchDialogOpen}
+        onClose={() => setSearchDialogOpen(false)}
+        maxWidth="sm"
+        fullWidth
+        PaperProps={{
+          sx: {
+            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%)',
+            backdropFilter: 'blur(20px)'
+          }
+        }}
+      >
+        <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <SearchIcon sx={{ color: '#1e3a8a' }} />
+            <Typography variant="h6" fontWeight={600}>Search Issues</Typography>
+          </Box>
+          <IconButton onClick={() => setSearchDialogOpen(false)}>
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent>
+          <Typography variant="body2" sx={{ mb: 2, color: '#6b7280' }}>
+            Search by title, description, category, status, or location
+          </Typography>
+          <TextField
+            fullWidth
+            placeholder="Enter search terms..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                handleSearchSubmit();
+              }
+            }}
+            InputProps={{
+              startAdornment: (
+                <SearchIcon sx={{ color: '#6b7280', mr: 1 }} />
+              )
+            }}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                borderRadius: 2,
+                '&:hover fieldset': { borderColor: '#1e3a8a' },
+                '&.Mui-focused fieldset': { borderColor: '#1e3a8a' }
+              },
+              '& .MuiInputLabel-root.Mui-focused': { color: '#1e3a8a' }
+            }}
+          />
+          {searchQuery && (
+            <Typography variant="caption" sx={{ color: '#6b7280', mt: 1, display: 'block' }}>
+              Press Enter or click Search to find issues
+            </Typography>
+          )}
+        </DialogContent>
+        <DialogActions sx={{ px: 3, pb: 3 }}>
+          <Button 
+            onClick={() => {
+              setSearchQuery('');
+              setSearchDialogOpen(false);
+            }}
+            sx={{ color: '#6b7280' }}
+          >
+            Cancel
+          </Button>
+          <Button 
+            onClick={handleSearchSubmit}
+            variant="contained"
+            disabled={!searchQuery.trim()}
+            sx={{
+              background: '#1e3a8a',
+              '&:hover': { background: '#1e40af' }
+            }}
+          >
+            Search
+          </Button>
         </DialogActions>
       </Dialog>
 
