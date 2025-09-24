@@ -90,10 +90,40 @@ ChartJS.register(
 );
 
 export default function Dashboard() {
+  console.log('📊 Dashboard component rendering...');
+  
   const { auth, logout } = useAuth();
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  
+  console.log('👤 Dashboard auth state:', { 
+    auth: !!auth, 
+    user: auth?.user, 
+    token: auth?.token ? 'present' : 'missing' 
+  });
+
+  // Early return for debugging - temporarily show simple content
+  if (!auth || !auth.user) {
+    console.log('❌ No auth data, showing error message');
+    return (
+      <Box sx={{ p: 3, textAlign: 'center' }}>
+        <Typography variant="h4" color="error">
+          Authentication Error
+        </Typography>
+        <Typography variant="body1">
+          No authentication data found. Please log in again.
+        </Typography>
+        <Button 
+          variant="contained" 
+          onClick={() => navigate('/login')}
+          sx={{ mt: 2 }}
+        >
+          Go to Login
+        </Button>
+      </Box>
+    );
+  }
   
   const [issues, setIssues] = useState([]);
   const [loading, setLoading] = useState(true);
