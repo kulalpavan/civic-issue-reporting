@@ -1,113 +1,14 @@
 [
   {
-    "id": "1758472881525",
-    "title": "Road construction is not proper",
-    "description": "I have noticed a problem in road construction near the main junction. The quality of work is substandard and poses safety risks.",
-    "image": "/uploads/1758472881499-demon-slayer-3840x2160-23652.jpg",
-    "status": "resolved",
-    "citizenId": "1",
-    "createdAt": "2025-09-21T16:41:21.525Z",
-    "updatedAt": "2025-09-21T17:08:41.574Z"
-  },
-  {
-    "id": "1727111200000",
-    "title": "Street Light Not Working",
-    "description": "The street light on Oak Avenue has been non-functional for over a week, creating safety concerns for pedestrians and drivers.",
-    "image": null,
-    "status": "in-progress",
-    "citizenId": "1",
-    "createdAt": "2025-09-22T08:00:00.000Z",
-    "updatedAt": "2025-09-22T08:41:08.238Z"
-  },
-  {
-    "id": "1727111300000",
-    "title": "Pothole on Main Street",
-    "description": "Large pothole near the grocery store parking lot causing vehicle damage. Immediate attention required.",
-    "image": null,
-    "status": "in-progress",
-    "citizenId": "1",
-    "createdAt": "2025-09-22T08:15:00.000Z",
-    "updatedAt": "2025-09-22T08:30:00.000Z"
-  },
-  {
-    "id": "1727111400000",
-    "title": "Garbage Collection Issue",
-    "description": "Garbage has not been collected in our neighborhood for 3 days. Bins are overflowing and attracting pests.",
-    "image": null,
-    "status": "pending",
-    "citizenId": "1",
-    "createdAt": "2025-09-22T08:30:00.000Z",
-    "updatedAt": "2025-09-22T08:30:00.000Z"
-  },
-  {
-    "id": "1758630696941",
-    "title": "street light problem",
-    "description": "street light problem",
-    "image": "/uploads/1758630696919-asus.jpg",
-    "status": "pending",
-    "citizenId": "1",
-    "createdAt": "2025-09-23T12:31:36.941Z",
-    "updatedAt": "2025-09-23T12:31:36.941Z"
-  },
-  {
-    "id": "1758630697848",
-    "title": "street light problem",
-    "description": "street light problem",
-    "image": "/uploads/1758630697817-asus.jpg",
-    "status": "pending",
-    "citizenId": "1",
-    "createdAt": "2025-09-23T12:31:37.848Z",
-    "updatedAt": "2025-09-23T12:31:37.848Z"
-  },
-  {
-    "id": "1758630703514",
-    "title": "street light problem",
-    "description": "street light problem",
-    "image": "/uploads/1758630703445-asus.jpg",
-    "status": "pending",
-    "citizenId": "1",
-    "createdAt": "2025-09-23T12:31:43.514Z",
-    "updatedAt": "2025-09-23T12:31:43.514Z"
-  },
-  {
-    "id": "1758630704425",
-    "title": "street light problem",
-    "description": "street light problem",
-    "image": "/uploads/1758630704379-asus.jpg",
-    "status": "pending",
-    "citizenId": "1",
-    "createdAt": "2025-09-23T12:31:44.425Z",
-    "updatedAt": "2025-09-23T12:31:44.425Z"
-  },
-  {
     "id": "1758630743003",
     "title": "test",
     "description": "test",
     "image": null,
-    "status": "pending",
+    "status": "resolved",
     "citizenId": "1",
     "createdAt": "2025-09-23T12:32:23.003Z",
-    "updatedAt": "2025-09-23T12:32:23.003Z"
-  },
-  {
-    "id": "1758630743893",
-    "title": "test",
-    "description": "test",
-    "image": null,
-    "status": "pending",
-    "citizenId": "1",
-    "createdAt": "2025-09-23T12:32:23.893Z",
-    "updatedAt": "2025-09-23T12:32:23.893Z"
-  },
-  {
-    "id": "1758631001813",
-    "title": "test",
-    "description": "test",
-    "image": "/uploads/1758631001786-asus.jpg",
-    "status": "in-progress",
-    "citizenId": "1",
-    "createdAt": "2025-09-23T12:36:41.813Z",
-    "updatedAt": "2025-09-23T12:57:26.657Z"
+    "updatedAt": "2025-09-24T13:49:38.670Z",
+    "comments": "Our team has started working on this issue. We will resolve it soon."
   },
   {
     "id": "1758631033622",
@@ -118,38 +19,6 @@
     "citizenId": "1",
     "createdAt": "2025-09-23T12:37:13.622Z",
     "updatedAt": "2025-09-23T12:37:13.622Z"
-  },
-  {
-    "id": "1758631306170",
-    "title": "street light ",
-    "description": "street light is not working properly",
-    "image": "/uploads/1758631306165-Screenshot 2025-09-20 130051.png",
-    "status": "resolved",
-    "citizenId": "1",
-    "createdAt": "2025-09-23T12:41:46.170Z",
-    "updatedAt": "2025-09-24T03:23:42.871Z"
-  },
-  {
-    "id": "1758631958431",
-    "title": "Street Light Status Update Test",
-    "description": "This issue is for testing status updates and email notifications.",
-    "image": null,
-    "status": "resolved",
-    "citizenId": "1",
-    "createdAt": "2025-09-23T12:52:38.431Z",
-    "updatedAt": "2025-09-23T12:52:50.948Z",
-    "comments": "The street light has been repaired and is now working properly. Thank you for reporting this issue!"
-  },
-  {
-    "id": "1758632177842",
-    "title": "Street Light Status Update Test",
-    "description": "This issue is for testing status updates and email notifications.",
-    "image": null,
-    "status": "resolved",
-    "citizenId": "1",
-    "createdAt": "2025-09-23T12:56:17.842Z",
-    "updatedAt": "2025-09-23T12:56:26.411Z",
-    "comments": "The street light has been repaired and is now working properly. Thank you for reporting this issue!"
   },
   {
     "id": "1758686507671",
@@ -171,11 +40,11 @@
     "location": "",
     "priority": "medium",
     "image": null,
-    "status": "pending",
+    "status": "in-progress",
     "citizenId": "1",
     "reportedBy": "citizen1",
     "createdAt": "2025-09-24T04:01:48.457Z",
-    "updatedAt": "2025-09-24T04:01:48.457Z"
+    "updatedAt": "2025-09-24T14:04:03.968Z"
   },
   {
     "id": "1758710306777",
@@ -184,10 +53,179 @@
     "location": "",
     "priority": "medium",
     "image": null,
-    "status": "pending",
+    "status": "resolved",
     "citizenId": "1",
     "reportedBy": "citizen1",
     "createdAt": "2025-09-24T10:38:26.777Z",
-    "updatedAt": "2025-09-24T10:38:26.777Z"
+    "updatedAt": "2025-09-24T14:03:43.677Z"
+  },
+  {
+    "id": "1758718341045",
+    "title": "abc",
+    "description": "abc",
+    "location": "",
+    "priority": "medium",
+    "image": null,
+    "status": "pending",
+    "citizenId": "1",
+    "reportedBy": "citizen1",
+    "createdAt": "2025-09-24T12:52:21.045Z",
+    "updatedAt": "2025-09-24T12:52:21.045Z"
+  },
+  {
+    "id": "1758720590300",
+    "title": "aaaa",
+    "description": "aa",
+    "location": "",
+    "priority": "medium",
+    "image": null,
+    "status": "pending",
+    "citizenId": "1",
+    "reportedBy": "citizen1",
+    "createdAt": "2025-09-24T13:29:50.300Z",
+    "updatedAt": "2025-09-24T13:29:50.300Z"
+  },
+  {
+    "id": "1758720591213",
+    "title": "aaaa",
+    "description": "aa",
+    "location": "",
+    "priority": "medium",
+    "image": null,
+    "status": "resolved",
+    "citizenId": "1",
+    "reportedBy": "citizen1",
+    "createdAt": "2025-09-24T13:29:51.213Z",
+    "updatedAt": "2025-09-24T13:49:32.376Z"
+  },
+  {
+    "id": "1758720597241",
+    "title": "aaaa",
+    "description": "aa",
+    "location": "",
+    "priority": "medium",
+    "image": null,
+    "status": "resolved",
+    "citizenId": "1",
+    "reportedBy": "citizen1",
+    "createdAt": "2025-09-24T13:29:57.241Z",
+    "updatedAt": "2025-09-24T13:48:42.200Z"
+  },
+  {
+    "id": "1758720598146",
+    "title": "aaaa",
+    "description": "aa",
+    "location": "",
+    "priority": "medium",
+    "image": null,
+    "status": "pending",
+    "citizenId": "1",
+    "reportedBy": "citizen1",
+    "createdAt": "2025-09-24T13:29:58.146Z",
+    "updatedAt": "2025-09-24T13:29:58.146Z"
+  },
+  {
+    "id": "1758721401305",
+    "title": "Test Issue - Email Notification",
+    "description": "Testing issue creation and email notifications",
+    "location": "Test Location, Main Street",
+    "priority": "high",
+    "image": null,
+    "status": "pending",
+    "citizenId": "1",
+    "reportedBy": "citizen1",
+    "createdAt": "2025-09-24T13:43:21.305Z",
+    "updatedAt": "2025-09-24T13:43:21.305Z"
+  },
+  {
+    "id": "1758721936340",
+    "title": "aaaa",
+    "description": "aaa",
+    "location": "",
+    "priority": "medium",
+    "image": "/uploads/1758721936312-new_aerphilia.png",
+    "status": "pending",
+    "citizenId": "1",
+    "reportedBy": "citizen1",
+    "createdAt": "2025-09-24T13:52:16.340Z",
+    "updatedAt": "2025-09-24T13:52:16.340Z"
+  },
+  {
+    "id": "1758721937279",
+    "title": "aaaa",
+    "description": "aaa",
+    "location": "",
+    "priority": "medium",
+    "image": "/uploads/1758721937227-new_aerphilia.png",
+    "status": "pending",
+    "citizenId": "1",
+    "reportedBy": "citizen1",
+    "createdAt": "2025-09-24T13:52:17.279Z",
+    "updatedAt": "2025-09-24T13:52:17.279Z"
+  },
+  {
+    "id": "1758722312405",
+    "title": "Test Issue Submission",
+    "description": "Testing if issue submission is working",
+    "location": "Test Location",
+    "priority": "medium",
+    "image": null,
+    "status": "pending",
+    "citizenId": "1",
+    "reportedBy": "citizen1",
+    "createdAt": "2025-09-24T13:58:32.405Z",
+    "updatedAt": "2025-09-24T13:58:32.405Z"
+  },
+  {
+    "id": "1758722442099",
+    "title": "Frontend Debug Test",
+    "description": "Testing FormData submission like frontend",
+    "location": "Debug Location",
+    "priority": "high",
+    "image": null,
+    "status": "pending",
+    "citizenId": "1",
+    "reportedBy": "citizen1",
+    "createdAt": "2025-09-24T14:00:42.099Z",
+    "updatedAt": "2025-09-24T14:00:42.099Z"
+  },
+  {
+    "id": "1758722459740",
+    "title": "JSON Debug Test",
+    "description": "Testing JSON submission",
+    "location": "JSON Location",
+    "priority": "medium",
+    "image": null,
+    "status": "pending",
+    "citizenId": "1",
+    "reportedBy": "citizen1",
+    "createdAt": "2025-09-24T14:00:59.740Z",
+    "updatedAt": "2025-09-24T14:00:59.740Z"
+  },
+  {
+    "id": "1758722475919",
+    "title": "",
+    "description": "",
+    "location": "",
+    "priority": "medium",
+    "image": null,
+    "status": "pending",
+    "citizenId": "1",
+    "reportedBy": "citizen1",
+    "createdAt": "2025-09-24T14:01:15.919Z",
+    "updatedAt": "2025-09-24T14:01:15.919Z"
+  },
+  {
+    "id": "1758722558491",
+    "title": "aaaa",
+    "description": "aaa",
+    "location": "",
+    "priority": "medium",
+    "image": "/uploads/1758722558471-new_aerphilia.png",
+    "status": "pending",
+    "citizenId": "1",
+    "reportedBy": "citizen1",
+    "createdAt": "2025-09-24T14:02:38.491Z",
+    "updatedAt": "2025-09-24T14:02:38.491Z"
   }
 ]
