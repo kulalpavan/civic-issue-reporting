@@ -90,40 +90,23 @@ ChartJS.register(
 );
 
 export default function Dashboard() {
-  console.log('📊 Dashboard component rendering...');
+  console.log('Dashboard rendering...');
   
   const { auth, logout } = useAuth();
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  
-  console.log('👤 Dashboard auth state:', { 
-    auth: !!auth, 
-    user: auth?.user, 
-    token: auth?.token ? 'present' : 'missing' 
-  });
 
-  // Early return for debugging - show error if no auth
+  console.log('Auth state:', auth);
+
+  // If no auth, return simple error message
   if (!auth || !auth.user) {
-    console.log('❌ No auth data, showing error message');
     return (
-      <Box sx={{ p: 3, textAlign: 'center', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <Paper sx={{ p: 4, textAlign: 'center' }}>
-          <Typography variant="h4" color="error" gutterBottom>
-            Authentication Error
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            No authentication data found. Please log in again.
-          </Typography>
-          <Button 
-            variant="contained" 
-            onClick={() => navigate('/login')}
-            sx={{ mt: 2 }}
-          >
-            Go to Login
-          </Button>
-        </Paper>
-      </Box>
+      <div style={{ padding: '20px', textAlign: 'center' }}>
+        <h2>Authentication Required</h2>
+        <p>Please log in to access the dashboard.</p>
+        <button onClick={() => navigate('/login')}>Go to Login</button>
+      </div>
     );
   }
   
@@ -138,7 +121,6 @@ export default function Dashboard() {
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredIssues, setFilteredIssues] = useState([]);
   const [notificationCount, setNotificationCount] = useState(3);
-  const [error, setError] = useState('');
   const [statsData, setStatsData] = useState({
     total: 0,
     resolved: 0,
@@ -149,19 +131,12 @@ export default function Dashboard() {
   const fetchIssues = async () => {
     try {
       setLoading(true);
-      setError('');
-      
-      console.log('🔄 Fetching issues for user:', auth.user);
-      
       let fetchedIssues;
       if (auth.user.role === 'citizen') {
         fetchedIssues = await api.getMyIssues();
       } else {
         fetchedIssues = await api.getAllIssues();
       }
-      
-      console.log('📊 Fetched issues:', fetchedIssues);
-      
       setIssues(fetchedIssues);
       setFilteredIssues(fetchedIssues);
       
@@ -173,32 +148,15 @@ export default function Dashboard() {
         inProgress: fetchedIssues.filter(i => i.status === 'in-progress').length
       });
     } catch (error) {
-      console.error('❌ Error fetching issues:', error);
-      setError(`Failed to load issues: ${error.message}`);
-      
-      // Set empty arrays to avoid undefined errors
-      setIssues([]);
-      setFilteredIssues([]);
-      setStatsData({
-        total: 0,
-        resolved: 0,
-        pending: 0,
-        inProgress: 0
-      });
+      console.error('Error fetching issues:', error);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    if (auth && auth.user) {
-      console.log('🚀 Dashboard mounted, fetching issues for user:', auth.user);
-      testApiConnection();
-      fetchIssues();
-    } else {
-      console.log('❌ No auth or user data available:', auth);
-    }
-  }, [auth?.user?.role]);
+    fetchIssues();
+  }, [auth.user.role]);
 
   // Handle drawer toggle
   const handleDrawerToggle = () => {
@@ -247,17 +205,6 @@ export default function Dashboard() {
     await fetchIssues();
     // Show success notification
     setNotificationCount(prev => prev + 1);
-  };
-
-  // Test API connection
-  const testApiConnection = async () => {
-    try {
-      console.log('🔍 Testing API connection...');
-      const result = await api.testConnection();
-      console.log('✅ API connection successful:', result);
-    } catch (error) {
-      console.error('❌ API connection failed:', error);
-    }
   };
 
   // Handle logout
@@ -482,13 +429,15 @@ export default function Dashboard() {
     }
   };
 
-  return (
-    <Box sx={{ 
-      display: 'flex', 
-      minHeight: '100vh',
-      background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #e2e8f0 75%, #f8fafc 100%)',
-      position: 'relative'
-    }}>
+  // Simplified return to test rendering
+  try {
+    return (
+      <Box sx={{ 
+        display: 'flex', 
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #e2e8f0 75%, #f8fafc 100%)',
+        position: 'relative'
+      }}>
       {/* Full-Screen App Bar */}
       <AppBar 
         position="fixed" 
@@ -686,21 +635,6 @@ export default function Dashboard() {
       >
         {/* Dynamic Content Based on Selected View */}
         <Container maxWidth="xl">
-          {/* Error Alert */}
-          {error && (
-            <Alert 
-              severity="error" 
-              sx={{ mb: 3, borderRadius: 2 }}
-              action={
-                <Button color="inherit" size="small" onClick={fetchIssues}>
-                  Retry
-                </Button>
-              }
-            >
-              {error}
-            </Alert>
-          )}
-          
           {selectedView === 'overview' && (
             <>
               {/* Welcome Header */}
@@ -728,29 +662,6 @@ export default function Dashboard() {
                   >
                     Here's what's happening in your community
                   </Typography>
-                  
-                  {/* Debug Info */}
-                  <Box sx={{ mt: 2, p: 2, bgcolor: 'rgba(0,0,0,0.3)', borderRadius: 1 }}>
-                    <Typography variant="body2" sx={{ color: '#cbd5e1', mb: 1 }}>
-                      Debug Info: Issues loaded: {issues.length} | User: {auth?.user?.username} ({auth?.user?.role})
-                    </Typography>
-                    <Button 
-                      size="small" 
-                      variant="outlined" 
-                      onClick={testApiConnection}
-                      sx={{ color: '#f8fafc', borderColor: '#f8fafc', mr: 1 }}
-                    >
-                      Test API Connection
-                    </Button>
-                    <Button 
-                      size="small" 
-                      variant="outlined" 
-                      onClick={fetchIssues}
-                      sx={{ color: '#f8fafc', borderColor: '#f8fafc' }}
-                    >
-                      Retry Load Issues
-                    </Button>
-                  </Box>
                 </Box>
               </Fade>
 
@@ -1204,4 +1115,15 @@ export default function Dashboard() {
       `}</style>
     </Box>
   );
+  } catch (error) {
+    console.error('Dashboard rendering error:', error);
+    return (
+      <div style={{ padding: '20px', textAlign: 'center' }}>
+        <h2>Dashboard Error</h2>
+        <p>There was an error loading the dashboard: {error.message}</p>
+        <button onClick={() => window.location.reload()}>Reload Page</button>
+        <button onClick={() => navigate('/login')} style={{ marginLeft: '10px' }}>Back to Login</button>
+      </div>
+    );
+  }
 }
