@@ -177,23 +177,8 @@ const civicTheme = createTheme({
 });
 
 function PrivateRoute({ children }) {
-  const { auth, isAuthenticated } = useAuth();
-  
-  console.log('🔐 PrivateRoute check:', { 
-    auth: !!auth, 
-    user: auth?.user?.username, 
-    role: auth?.user?.role,
-    isAuthenticated,
-    token: auth?.token ? 'present' : 'missing'
-  });
-  
-  if (!auth || !isAuthenticated) {
-    console.log('❌ Not authenticated, redirecting to login');
-    return <Navigate to="/login" />;
-  }
-  
-  console.log('✅ Authenticated, rendering dashboard');
-  return children;
+  const { auth } = useAuth();
+  return auth ? children : <Navigate to="/login" />;
 }
 
 function App() {

@@ -77,6 +77,7 @@ import { Bar, Pie } from 'react-chartjs-2';
 import { useAuth } from '../contexts/AuthContext';
 import ReportIssue from '../components/ReportIssue';
 import EnhancedIssueList from '../components/EnhancedIssueList';
+import AIAssistant from '../components/AIAssistant';
 import * as api from '../api';
 import { useNavigate } from 'react-router-dom';
 
@@ -1291,6 +1292,9 @@ export default function Dashboard() {
           <Typography>Loading dashboard data...</Typography>
         </Box>
       </Backdrop>
+
+      {/* AI Assistant */}
+      <AIAssistant />
 
       {/* Custom CSS for animations */}
       <style jsx>{`

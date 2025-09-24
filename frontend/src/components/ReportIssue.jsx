@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Box,
   Button,
@@ -6,6 +6,7 @@ import {
   Paper,
   Typography,
   Alert,
+  AlertTitle,
   CircularProgress,
   Card,
   CardContent,
@@ -13,7 +14,8 @@ import {
   Fade,
   IconButton,
   Chip,
-  useTheme
+  useTheme,
+  Divider
 } from '@mui/material';
 import { 
   CloudUpload as CloudUploadIcon,
@@ -21,9 +23,52 @@ import {
   PhotoCamera as PhotoCameraIcon,
   Delete as DeleteIcon,
   Description as DescriptionIcon,
-  Title as TitleIcon
+  Title as TitleIcon,
+  Psychology as AIIcon,
+  Category as DepartmentIcon,
+  SmartToy as SmartToyIcon
 } from '@mui/icons-material';
 import * as api from '../api';
+
+// Department mapping for AI suggestions
+const DEPARTMENTS = {
+  transportation: {
+    name: 'Transportation Department',
+    keywords: ['road', 'traffic', 'pothole', 'street', 'highway', 'bridge', 'sidewalk', 'crossing', 'signal', 'parking'],
+    color: '#3b82f6',
+    icon: '🚗'
+  },
+  utilities: {
+    name: 'Public Utilities Department',
+    keywords: ['water', 'electricity', 'power', 'sewer', 'drainage', 'utility', 'outage', 'leak', 'pipe'],
+    color: '#10b981',
+    icon: '⚡'
+  },
+  sanitation: {
+    name: 'Sanitation Department',
+    keywords: ['garbage', 'waste', 'trash', 'cleaning', 'sanitation', 'bins', 'collection', 'dirty', 'smell'],
+    color: '#f59e0b',
+    icon: '🗑️'
+  },
+  environment: {
+    name: 'Environmental Department',
+    keywords: ['pollution', 'noise', 'air', 'environment', 'tree', 'park', 'green', 'noise', 'smoke'],
+    color: '#10b981',
+    icon: '🌱'
+  },
+  safety: {
+    name: 'Public Safety Department',
+    keywords: ['safety', 'security', 'crime', 'emergency', 'fire', 'police', 'dangerous', 'unsafe', 'hazard'],
+    color: '#ef4444',
+    icon: '🚨'
+  },
+  infrastructure: {
+    name: 'Infrastructure Department',
+    keywords: ['building', 'construction', 'maintenance', 'repair', 'structure', 'facility', 'public', 'infrastructure'],
+    color: '#8b5cf6',
+    icon: '🏗️'
+  }
+};
 
 export default function ReportIssue({ onIssueSubmitted }) {
   const theme = useTheme();
@@ -36,6 +81,25 @@ export default function ReportIssue({ onIssueSubmitted }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const [suggestedDepartment, setSuggestedDepartment] = useState(null);
+  const [showAISuggestion, setShowAISuggestion] = useState(false);
+
+  // AI logic to classify issues
+  const classifyIssue = (text) => {
+    const lowerText = text.toLowerCase();
+    
+    for (const [key, dept] of Object.entries(DEPARTMENTS)) {
+      const hasKeyword = dept.keywords.some(keyword => 
+        lowerText.includes(keyword.toLowerCase())
+      );
+      
+      if (hasKeyword) {
+        return dept;
+      }
+    }
+    
+    return null;
+  };
 
   const handleChange = (e) => {
     setFormData({
@@ -43,6 +107,26 @@ export default function ReportIssue({ onIssueSubmitted }) {
       [e.target.name]: e.target.value
     });
   };
+
+  // AI department suggestion based on title and description
+  useEffect(() => {
+    const text = `${formData.title} ${formData.description}`.trim();
+    
+    if (text.length > 10) { // Only analyze if there's substantial text
+      const department = classifyIssue(text);
+      
+      if (department && department !== suggestedDepartment) {
+        setSuggestedDepartment(department);
+        setShowAISuggestion(true);
+      } else if (!department) {
+        setSuggestedDepartment(null);
+        setShowAISuggestion(false);
+      }
+    } else {
+      setSuggestedDepartment(null);
+      setShowAISuggestion(false);
+    }
+  }, [formData.title, formData.description, suggestedDepartment]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -217,6 +301,26 @@ export default function ReportIssue({ onIssueSubmitted }) {
                 }}
               />
             </Box>
+
+            {/* AI Department Suggestion */}
+            {suggestedDepartment && (
+              <Box sx={{ mb: 3 }}>
+                <Alert 
+                  severity="info" 
+                  icon={<SmartToyIcon />}
+                  sx={{ 
+                    borderRadius: 2,
+                    '& .MuiAlert-icon': {
+                      alignItems: 'center'
+                    }
+                  }}
+                >
+                  <AlertTitle>AI Suggestion</AlertTitle>
+                  Based on your description, this issue appears to be related to the{' '}
+                  <strong>{suggestedDepartment}</strong> department. This can help with faster routing and resolution.
+                </Alert>
+              </Box>
+            )}
 
             {/* Image Upload Section */}
             <Box sx={{ mb: 4 }}>
