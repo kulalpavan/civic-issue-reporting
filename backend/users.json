@@ -2,21 +2,18 @@
   {
     "id": "1",
     "username": "citizen1",
-    "email": "nishchalbhandari18@gmail.com",
-    "password": "$2a$10$SadGedH5DbskRBUEa5mQ.ePWiJaLbHa.9iCMjsos0faaL6qO2PBN2",
+    "password": "$2a$10$9z12Lr8dwF0zA73J.o9D6eF7AZiYme/XHrjzyBiRYR3tyQozPnmB.",
     "role": "citizen"
   },
   {
     "id": "2",
     "username": "officer1",
-    "email": "nishchalbhandari18@gmail.com",
     "password": "$2a$10$RExZEwNsgUiDSo83wVZQ/.JQ9Il/yn7TpUR48J1/qrPFY/1BRwnc6",
     "role": "officer"
   },
   {
     "id": "3",
     "username": "admin1",
-    "email": "nishchalbhandari18@gmail.com",
     "password": "$2a$10$yVlN5jQ62g8ZcNtDZfzqw.cQ5JGeUVzBqQwlJVIfCY3aaXbVHXH6C",
     "role": "admin"
   }

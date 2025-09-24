@@ -30,8 +30,6 @@ export default function ReportIssue({ onIssueSubmitted }) {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    location: '',
-    priority: 'medium'
   });
   const [selectedImage, setSelectedImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
@@ -78,8 +76,6 @@ export default function ReportIssue({ onIssueSubmitted }) {
       const formDataToSend = new FormData();
       formDataToSend.append('title', formData.title);
       formDataToSend.append('description', formData.description);
-      formDataToSend.append('location', formData.location);
-      formDataToSend.append('priority', formData.priority);
       if (selectedImage) {
         formDataToSend.append('image', selectedImage);
       }
@@ -87,7 +83,7 @@ export default function ReportIssue({ onIssueSubmitted }) {
       await api.createIssue(formDataToSend);
       
       setSuccess(true);
-      setFormData({ title: '', description: '', location: '', priority: 'medium' });
+      setFormData({ title: '', description: '' });
       setSelectedImage(null);
       setImagePreview(null);
       if (onIssueSubmitted) {
