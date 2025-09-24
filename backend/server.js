@@ -9,6 +9,9 @@ const multer = require('multer');
 const userRoutes = require('./routes/users');
 const issueRoutes = require('./routes/issues');
 
+// Import email service
+const emailService = require('./services/emailService');
+
 const app = express();
 
 console.log('Starting server...');
@@ -98,6 +101,17 @@ app.get('/api/test', (req, res) => {
 // Routes
 app.use('/api/users', userRoutes);
 app.use('/api/issues', issueRoutes);
+
+// Initialize email service
+(async () => {
+  try {
+    console.log('📧 Initializing email service...');
+    await emailService.testConnection();
+    console.log('📧 Email service status: Ready');
+  } catch (error) {
+    console.log('📧 Email service status: Demo mode (email simulation)');
+  }
+})();
 
 // Start server
 app.listen(PORT, '0.0.0.0', () => {

@@ -2,18 +2,21 @@
   {
     "id": "1",
     "username": "citizen1",
+    "email": "nishchalbhandari18@gmail.com",
     "password": "$2a$10$kMFJaxy1mD//b1tffThrDe8im/ByovjvWz1KTBkL3564c5Dy7HSiC",
     "role": "citizen"
   },
   {
     "id": "2",
     "username": "officer1",
+    "email": "officer1@example.com",
     "password": "$2a$10$RExZEwNsgUiDSo83wVZQ/.JQ9Il/yn7TpUR48J1/qrPFY/1BRwnc6",
     "role": "officer"
   },
   {
     "id": "3",
     "username": "admin1",
+    "email": "admin1@example.com",
     "password": "$2a$10$yVlN5jQ62g8ZcNtDZfzqw.cQ5JGeUVzBqQwlJVIfCY3aaXbVHXH6C",
     "role": "admin"
   }
