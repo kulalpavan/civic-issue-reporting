@@ -38,5 +38,117 @@
     "citizenId": "1",
     "createdAt": "2025-09-22T08:30:00.000Z",
     "updatedAt": "2025-09-22T08:30:00.000Z"
+  },
+  {
+    "id": "1758630696941",
+    "title": "street light problem",
+    "description": "street light problem",
+    "image": "/uploads/1758630696919-asus.jpg",
+    "status": "pending",
+    "citizenId": "1",
+    "createdAt": "2025-09-23T12:31:36.941Z",
+    "updatedAt": "2025-09-23T12:31:36.941Z"
+  },
+  {
+    "id": "1758630697848",
+    "title": "street light problem",
+    "description": "street light problem",
+    "image": "/uploads/1758630697817-asus.jpg",
+    "status": "pending",
+    "citizenId": "1",
+    "createdAt": "2025-09-23T12:31:37.848Z",
+    "updatedAt": "2025-09-23T12:31:37.848Z"
+  },
+  {
+    "id": "1758630703514",
+    "title": "street light problem",
+    "description": "street light problem",
+    "image": "/uploads/1758630703445-asus.jpg",
+    "status": "pending",
+    "citizenId": "1",
+    "createdAt": "2025-09-23T12:31:43.514Z",
+    "updatedAt": "2025-09-23T12:31:43.514Z"
+  },
+  {
+    "id": "1758630704425",
+    "title": "street light problem",
+    "description": "street light problem",
+    "image": "/uploads/1758630704379-asus.jpg",
+    "status": "pending",
+    "citizenId": "1",
+    "createdAt": "2025-09-23T12:31:44.425Z",
+    "updatedAt": "2025-09-23T12:31:44.425Z"
+  },
+  {
+    "id": "1758630743003",
+    "title": "test",
+    "description": "test",
+    "image": null,
+    "status": "pending",
+    "citizenId": "1",
+    "createdAt": "2025-09-23T12:32:23.003Z",
+    "updatedAt": "2025-09-23T12:32:23.003Z"
+  },
+  {
+    "id": "1758630743893",
+    "title": "test",
+    "description": "test",
+    "image": null,
+    "status": "pending",
+    "citizenId": "1",
+    "createdAt": "2025-09-23T12:32:23.893Z",
+    "updatedAt": "2025-09-23T12:32:23.893Z"
+  },
+  {
+    "id": "1758631001813",
+    "title": "test",
+    "description": "test",
+    "image": "/uploads/1758631001786-asus.jpg",
+    "status": "in-progress",
+    "citizenId": "1",
+    "createdAt": "2025-09-23T12:36:41.813Z",
+    "updatedAt": "2025-09-23T12:57:26.657Z"
+  },
+  {
+    "id": "1758631033622",
+    "title": "Test Issue Submission",
+    "description": "This is a test to verify issue submission is working properly.",
+    "image": null,
+    "status": "pending",
+    "citizenId": "1",
+    "createdAt": "2025-09-23T12:37:13.622Z",
+    "updatedAt": "2025-09-23T12:37:13.622Z"
+  },
+  {
+    "id": "1758631306170",
+    "title": "street light ",
+    "description": "street light is not working properly",
+    "image": "/uploads/1758631306165-Screenshot 2025-09-20 130051.png",
+    "status": "resolved",
+    "citizenId": "1",
+    "createdAt": "2025-09-23T12:41:46.170Z",
+    "updatedAt": "2025-09-24T03:23:42.871Z"
+  },
+  {
+    "id": "1758631958431",
+    "title": "Street Light Status Update Test",
+    "description": "This issue is for testing status updates and email notifications.",
+    "image": null,
+    "status": "resolved",
+    "citizenId": "1",
+    "createdAt": "2025-09-23T12:52:38.431Z",
+    "updatedAt": "2025-09-23T12:52:50.948Z",
+    "comments": "The street light has been repaired and is now working properly. Thank you for reporting this issue!"
+  },
+  {
+    "id": "1758632177842",
+    "title": "Street Light Status Update Test",
+    "description": "This issue is for testing status updates and email notifications.",
+    "image": null,
+    "status": "resolved",
+    "citizenId": "1",
+    "createdAt": "2025-09-23T12:56:17.842Z",
+    "updatedAt": "2025-09-23T12:56:26.411Z",
+    "comments": "The street light has been repaired and is now working properly. Thank you for reporting this issue!"
   }
 ]

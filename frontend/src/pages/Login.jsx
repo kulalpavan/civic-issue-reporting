@@ -45,22 +45,6 @@ export default function Login() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [connectionStatus, setConnectionStatus] = useState(null);
-
-  // Test connection on component mount
-  useEffect(() => {
-    const testConnection = async () => {
-      try {
-        await api.testConnection();
-        setConnectionStatus('connected');
-      } catch (error) {
-        setConnectionStatus('disconnected');
-        console.error('❌ Connection test failed:', error);
-      }
-    };
-    
-    testConnection();
-  }, []);
 
   const handleChange = (e) => {
     setFormData({
@@ -347,40 +331,6 @@ export default function Login() {
                   }}
                 >
                   {error}
-                </Alert>
-              )}
-
-              {connectionStatus && (
-                <Alert 
-                  severity={connectionStatus === 'connected' ? 'success' : 'warning'} 
-                  sx={{ 
-                    mb: 3,
-                    borderRadius: 3,
-                    backgroundColor: connectionStatus === 'connected' 
-                      ? 'rgba(16, 185, 129, 0.1)' 
-                      : 'rgba(245, 158, 11, 0.1)',
-                    borderLeft: connectionStatus === 'connected'
-                      ? '4px solid #10b981'
-                      : '4px solid #f59e0b',
-                    border: connectionStatus === 'connected'
-                      ? '1px solid rgba(16, 185, 129, 0.2)'
-                      : '1px solid rgba(245, 158, 11, 0.2)',
-                    '& .MuiAlert-icon': {
-                      fontSize: '1.3rem',
-                      color: connectionStatus === 'connected' ? '#34d399' : '#fbbf24'
-                    },
-                    '& .MuiAlert-message': {
-                      color: connectionStatus === 'connected' ? '#a7f3d0' : '#fde68a',
-                      fontSize: { xs: '0.9rem', sm: '1rem' },
-                      fontWeight: 500,
-                      lineHeight: 1.4
-                    }
-                  }}
-                >
-                  {connectionStatus === 'connected' 
-                    ? '✅ Connected to server' 
-                    : '⚠️ Server connection issue - check if backend is running'
-                  }
                 </Alert>
               )}
 
