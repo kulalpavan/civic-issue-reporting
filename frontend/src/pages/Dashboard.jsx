@@ -57,7 +57,8 @@ import {
   Delete as DeleteIcon,
   Visibility as ViewIcon,
   Close as CloseIcon,
-  Menu as MenuIcon
+  Menu as MenuIcon,
+  Logout as LogoutIcon
 } from '@mui/icons-material';
 import NavBar from '../components/NavBar';
 import ResolvedIssuesList from '../components/ResolvedIssuesList';
@@ -76,6 +77,7 @@ import { useAuth } from '../contexts/AuthContext';
 import ReportIssue from '../components/ReportIssue';
 import EnhancedIssueList from '../components/EnhancedIssueList';
 import * as api from '../api';
+import { useNavigate } from 'react-router-dom';
 
 ChartJS.register(
   CategoryScale,
@@ -88,7 +90,8 @@ ChartJS.register(
 );
 
 export default function Dashboard() {
-  const { auth } = useAuth();
+  const { auth, logout } = useAuth();
+  const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   
@@ -183,6 +186,12 @@ export default function Dashboard() {
     await fetchIssues();
     // Show success notification
     setNotificationCount(prev => prev + 1);
+  };
+
+  // Handle logout
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
   };
 
   // Navigation menu items
@@ -418,6 +427,21 @@ export default function Dashboard() {
               </IconButton>
             </Tooltip>
             
+            <Tooltip title="Logout">
+              <IconButton 
+                color="inherit" 
+                onClick={handleLogout}
+                sx={{ 
+                  '&:hover': { 
+                    backgroundColor: 'rgba(220, 38, 38, 0.1)',
+                    color: '#ef4444'
+                  }
+                }}
+              >
+                <LogoutIcon />
+              </IconButton>
+            </Tooltip>
+            
             <Avatar 
               sx={{ 
                 bgcolor: '#10b981',
@@ -514,6 +538,25 @@ export default function Dashboard() {
               fontSize: '0.75rem'
             }} 
           />
+          <Button
+            fullWidth
+            variant="outlined"
+            size="small"
+            startIcon={<LogoutIcon />}
+            onClick={handleLogout}
+            sx={{
+              mt: 2,
+              borderColor: 'rgba(239, 68, 68, 0.3)',
+              color: '#f87171',
+              '&:hover': {
+                borderColor: '#ef4444',
+                backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                color: '#ef4444'
+              }
+            }}
+          >
+            Logout
+          </Button>
         </Box>
       </Drawer>
 
