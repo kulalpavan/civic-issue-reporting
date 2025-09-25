@@ -2,19 +2,19 @@
   {
     "id": "1",
     "username": "citizen1",
-    "password": "$2a$10$9z12Lr8dwF0zA73J.o9D6eF7AZiYme/XHrjzyBiRYR3tyQozPnmB.",
+    "password": "$2a$10$KRB44qVUMOXUjbUJrBmepO5hkgeWbgOlIuuHB8POWnjgue1mLEiSi",
     "role": "citizen"
   },
   {
     "id": "2",
     "username": "officer1",
-    "password": "$2a$10$RExZEwNsgUiDSo83wVZQ/.JQ9Il/yn7TpUR48J1/qrPFY/1BRwnc6",
+    "password": "$2a$10$hNy2FgLYDklG0.Q30Hd.G.BYlTtjtlqa.9B9aCM174f/evIyqZ/TK",
     "role": "officer"
   },
   {
     "id": "3",
     "username": "admin1",
-    "password": "$2a$10$yVlN5jQ62g8ZcNtDZfzqw.cQ5JGeUVzBqQwlJVIfCY3aaXbVHXH6C",
+    "password": "$2a$10$oa/7WgLRPLmxPT1KJ36o.uiQ5OeVH257h4iIGZnMrpTysIuH3BdrO",
     "role": "admin"
   }
 ]
