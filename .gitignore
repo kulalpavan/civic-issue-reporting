@@ -35,6 +35,14 @@ yarn-error.log*
 /backend/uploads/*
 !/backend/uploads/.gitkeep
 
+# Sensitive credential files
+backend/LOGIN_CREDENTIALS.md
+backend/find-passwords.js
+backend/generate-passwords.js
+backend/*-passwords.js
+**/credentials.*
+**/LOGIN_CREDENTIALS.*
+
 # OS files
 .DS_Store
 Thumbs.db
