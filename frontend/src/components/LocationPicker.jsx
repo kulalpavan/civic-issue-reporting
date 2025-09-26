@@ -67,6 +67,7 @@ const LocationPicker = ({ onLocationSelect, initialLocation, isCompact = false }
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [showMap, setShowMap] = useState(!isCompact);
+  const [permissionStatus, setPermissionStatus] = useState('prompt');
   const mapRef = useRef();
 
   // Default center (New Delhi, India - you can change this to your city)
@@ -77,15 +78,59 @@ const LocationPicker = ({ onLocationSelect, initialLocation, isCompact = false }
       setPosition(initialLocation);
       reverseGeocode(initialLocation);
     }
+    
+    // Check geolocation permission status
+    checkPermissionStatus();
   }, [initialLocation]);
+
+  // Check current permission status
+  const checkPermissionStatus = async () => {
+    if ('permissions' in navigator) {
+      try {
+        const permission = await navigator.permissions.query({ name: 'geolocation' });
+        setPermissionStatus(permission.state);
+        
+        // Listen for permission changes
+        permission.onchange = () => {
+          setPermissionStatus(permission.state);
+        };
+      } catch (error) {
+        console.log('Permission API not supported');
+      }
+    }
+  };
+
+  // Check if geolocation is available and secure context
+  const checkGeolocationSupport = () => {
+    if (!navigator.geolocation) {
+      return { supported: false, message: 'Geolocation is not supported by this browser' };
+    }
+    
+    // Check if we're in a secure context (HTTPS or localhost)
+    const isLocalhost = window.location.hostname === 'localhost' || 
+                       window.location.hostname === '127.0.0.1' ||
+                       window.location.hostname.startsWith('192.168.') ||
+                       window.location.hostname.startsWith('10.') ||
+                       window.location.hostname.startsWith('172.');
+                       
+    if (!window.isSecureContext && !isLocalhost) {
+      return { 
+        supported: false, 
+        message: 'Location access requires a secure connection (HTTPS). Please use HTTPS or localhost.' 
+      };
+    }
+    
+    return { supported: true };
+  };
 
   // Get user's current location
   const getCurrentLocation = () => {
     setLoading(true);
     setError('');
 
-    if (!navigator.geolocation) {
-      setError('Geolocation is not supported by this browser');
+    const geolocationCheck = checkGeolocationSupport();
+    if (!geolocationCheck.supported) {
+      setError(geolocationCheck.message);
       setLoading(false);
       return;
     }
@@ -105,7 +150,24 @@ const LocationPicker = ({ onLocationSelect, initialLocation, isCompact = false }
       },
       (err) => {
         console.error('Geolocation error:', err);
-        setError('Unable to get your location. Please click on the map to select location.');
+        let errorMessage = 'Unable to get your location. ';
+        
+        switch(err.code) {
+          case err.PERMISSION_DENIED:
+            errorMessage = 'Location access denied. Please enable location permissions in your browser and try again.';
+            break;
+          case err.POSITION_UNAVAILABLE:
+            errorMessage = 'Location information is unavailable. Please try again or select location manually on the map.';
+            break;
+          case err.TIMEOUT:
+            errorMessage = 'Location request timed out. Please try again or select location manually on the map.';
+            break;
+          default:
+            errorMessage = 'An unknown error occurred while getting your location. Please try again or select location manually on the map.';
+            break;
+        }
+        
+        setError(errorMessage);
         setLoading(false);
       },
       {
@@ -148,15 +210,18 @@ const LocationPicker = ({ onLocationSelect, initialLocation, isCompact = false }
         </Box>
         
         <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
-          <Button
-            variant="outlined"
-            startIcon={<MyLocationIcon />}
-            onClick={getCurrentLocation}
-            disabled={loading}
-            size="small"
-          >
-            {loading ? <CircularProgress size={16} /> : 'Use Current Location'}
-          </Button>
+          <Tooltip title="Click to automatically detect your current location. You may need to allow location permissions.">
+            <Button
+              variant="contained"
+              startIcon={loading ? <CircularProgress size={16} color="inherit" /> : <MyLocationIcon />}
+              onClick={getCurrentLocation}
+              disabled={loading}
+              size="small"
+              color="primary"
+            >
+              {loading ? 'Getting Location...' : 'Use Current Location'}
+            </Button>
+          </Tooltip>
           
           <Button
             variant="outlined"
@@ -275,8 +340,22 @@ const LocationPicker = ({ onLocationSelect, initialLocation, isCompact = false }
             <strong>How to select location:</strong>
             <br />
             1. Click "Use Current Location" to auto-detect your location
+            {permissionStatus === 'denied' && (
+              <>
+                <br />
+                <strong>Note:</strong> Location permission is currently blocked. To enable:
+                <br />
+                • Chrome: Click the location icon in the address bar
+                <br />
+                • Firefox: Click the shield icon and allow location access
+                <br />
+                • Safari: Go to Safari → Settings → Websites → Location
+              </>
+            )}
             <br />
             2. Or click anywhere on the map to manually select the issue location
+            <br />
+            3. The red marker will show your selected location
           </Alert>
         )}
       </Paper>
