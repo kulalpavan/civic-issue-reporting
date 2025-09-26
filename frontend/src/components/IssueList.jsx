@@ -13,6 +13,7 @@ import {
   ScheduleOutlined as InProgressIcon,
   CheckCircleOutline as ResolvedIcon
 } from '@mui/icons-material';
+import LocationDisplay from './LocationDisplay';
 
 const statusColors = {
   pending: 'warning',
@@ -68,10 +69,19 @@ export default function IssueList({ issues }) {
               }
               secondary={
                 <Box sx={{ mt: 1 }}>
+                  {issue.location && (
+                    <Box sx={{ mt: 1, mb: 1 }}>
+                      <LocationDisplay 
+                        location={issue.location} 
+                        title={issue.title}
+                        compact={true}
+                      />
+                    </Box>
+                  )}
                   {issue.image && (
                     <Box sx={{ mt: 1, mb: 1 }}>
                       <img
-                        src={`http://localhost:5000${issue.image}`}
+                        src={`http://localhost:5001${issue.image}`}
                         alt="Issue"
                         style={{
                           maxWidth: '200px',

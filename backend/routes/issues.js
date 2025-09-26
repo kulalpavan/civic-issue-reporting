@@ -36,13 +36,17 @@ async function saveIssues(issues) {
 // Create new issue (Citizen only)
 router.post('/', authMiddleware, roleCheck(['citizen']), upload.single('image'), async (req, res) => {
   try {
-    const { title, description } = req.body;
+    const { title, description, latitude, longitude } = req.body;
     const issues = await getIssues();
     
     const newIssue = {
       id: Date.now().toString(),
       title,
       description,
+      location: {
+        latitude: latitude ? parseFloat(latitude) : null,
+        longitude: longitude ? parseFloat(longitude) : null
+      },
       image: req.file ? `/uploads/${req.file.filename}` : null,
       status: 'pending',
       citizenId: req.user.id,

@@ -37,6 +37,7 @@ import {
 } from '@mui/icons-material';
 import { useAuth } from '../contexts/AuthContext';
 import * as api from '../api';
+import LocationDisplay from './LocationDisplay';
 
 const statusColors = {
   pending: { color: '#FFA726', bg: 'rgba(255, 167, 38, 0.1)' },
@@ -279,6 +280,17 @@ export default function EnhancedIssueList({ issues, onIssueUpdated, onIssueDelet
                   >
                     {issue.description}
                   </Typography>
+
+                  {/* Location Display */}
+                  {issue.location && (
+                    <Box sx={{ mt: 1, mb: 1 }}>
+                      <LocationDisplay 
+                        location={issue.location} 
+                        title={issue.title}
+                        compact={true}
+                      />
+                    </Box>
+                  )}
 
                   {/* Metadata */}
                   <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>

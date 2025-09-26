@@ -4,11 +4,11 @@ import axios from 'axios';
 const getApiUrl = () => {
   // Development environment (localhost)
   if (window.location.hostname === 'localhost') {
-    return 'http://localhost:5000/api';
+    return 'http://localhost:5001/api';
   }
   
   // Local network access (for other devices on same network)
-  return `http://${window.location.hostname}:5000/api`;
+  return `http://${window.location.hostname}:5001/api`;
 };
 
 const API_URL = getApiUrl();

@@ -24,12 +24,14 @@ import {
   Title as TitleIcon
 } from '@mui/icons-material';
 import * as api from '../api';
+import LocationPicker from './LocationPicker';
 
 export default function ReportIssue({ onIssueSubmitted }) {
   const theme = useTheme();
   const [formData, setFormData] = useState({
     title: '',
     description: '',
+    location: null,
   });
   const [selectedImage, setSelectedImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
@@ -41,6 +43,13 @@ export default function ReportIssue({ onIssueSubmitted }) {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
+    });
+  };
+
+  const handleLocationSelect = (location) => {
+    setFormData({
+      ...formData,
+      location: location
     });
   };
 
@@ -76,6 +85,13 @@ export default function ReportIssue({ onIssueSubmitted }) {
       const formDataToSend = new FormData();
       formDataToSend.append('title', formData.title);
       formDataToSend.append('description', formData.description);
+      
+      // Add location data if available
+      if (formData.location) {
+        formDataToSend.append('latitude', formData.location[0]);
+        formDataToSend.append('longitude', formData.location[1]);
+      }
+      
       if (selectedImage) {
         formDataToSend.append('image', selectedImage);
       }
@@ -83,7 +99,7 @@ export default function ReportIssue({ onIssueSubmitted }) {
       await api.createIssue(formDataToSend);
       
       setSuccess(true);
-      setFormData({ title: '', description: '' });
+      setFormData({ title: '', description: '', location: null });
       setSelectedImage(null);
       setImagePreview(null);
       if (onIssueSubmitted) {
@@ -217,6 +233,13 @@ export default function ReportIssue({ onIssueSubmitted }) {
                 }}
               />
             </Box>
+
+            {/* Location Selection */}
+            <LocationPicker
+              onLocationSelect={handleLocationSelect}
+              initialLocation={formData.location}
+              isCompact={false}
+            />
 
             {/* Image Upload Section */}
             <Box sx={{ mb: 4 }}>
